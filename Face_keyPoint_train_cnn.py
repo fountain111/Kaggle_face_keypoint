@@ -2,10 +2,10 @@ import tensorflow as tf
 import pandas as pd
 import numpy as np
 import Face_kyePoint_cnn
-BATCH_SIZE = 50
+BATCH_SIZE = 128
 FLAGS = tf.app.flags.FLAGS
 
-tf.app.flags.DEFINE_integer('max_steps', 25000,
+tf.app.flags.DEFINE_integer('max_steps', 7000,
                             """Number of batches to run.""")
 tf.app.flags.DEFINE_string('summary_dir', '/tmp/faceKeypoint',
                            """Directory where to write event logs """
@@ -38,7 +38,7 @@ def train():
         validation_writer = tf.train.SummaryWriter(FLAGS.summary_dir + '/validation')
 
     for step in range(FLAGS.max_steps):
-        batch_x, batch_y, index_in_epoch, epochs_completed = Face_kyePoint_cnn.get_batch(BATCH_SIZE, train_datas, train_labels, index_in_epoch, epochs_completed, num_examples)
+        batch_x, batch_y, index_in_epoch, epochs_completed,train_datas,train_labels = Face_kyePoint_cnn.get_batch(BATCH_SIZE, train_datas, train_labels, index_in_epoch, epochs_completed, num_examples)
         sess.run([optimizer], feed_dict={x: batch_x, y_: batch_y})
         if step % 1000 == 0 or (step + 1) == FLAGS.max_steps:
             validation_writer.add_summary(sess.run(merge, feed_dict={x: validation_datas[0:Face_kyePoint_cnn.VALIDATION_SIZE], y_: validation_labels[0:Face_kyePoint_cnn.VALIDATION_SIZE]}), step)

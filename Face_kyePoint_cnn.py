@@ -2,20 +2,27 @@ import tensorflow as tf
 import pandas as pd
 import numpy as np
 
-VALIDATION_SIZE = 400
+VALIDATION_SIZE = 100
 INPUT_SIZE = 9216
 LABEL_SIZE = 30
 FLAGS = tf.app.flags.FLAGS
 tf.app.flags.DEFINE_integer('regular', '0', """if use regularization to prevent overfitting. 0 = not use""")
-LEARNING_RATE = 1e-4
+LEARNING_RATE = 0.01
+MOMTENMUM = 0.9
 
 
 def split_data():
     datas = pd.read_csv('training.csv').dropna()
+
     images = np.vstack(datas['Image'].apply(lambda im: np.fromstring(im, sep=' ') / 255.0).values).astype(np.float32).reshape(-1, INPUT_SIZE)
    # images = np.vstack(images.values)
     #images = images.reshape(-1, 96, 96, 1)
     labels = (datas[datas.columns[:-1]].values - 48) / 48
+    #shuffle
+    perm = np.arange(images.shape[0])
+    np.random.shuffle(perm)
+    images = images[perm]
+    labels = labels[perm]
     # split data into train&corss_validation
     train_images = images[VALIDATION_SIZE:]
     train_labels = labels[VALIDATION_SIZE:]
@@ -36,7 +43,7 @@ def inference(datas):
     w2 = weight_variable([100, LABEL_SIZE])
     b2 = bias_variable([LABEL_SIZE])
 
-    labels = tf.nn.softmax(tf.matmul(hidden, w2) + b2)
+    labels = tf.matmul(hidden, w2) + b2
 
     if FLAGS.regular:
         regularizer = tf.nn.l2_loss(w2)+tf.nn.l2_loss(b2)
@@ -46,7 +53,7 @@ def inference(datas):
 
 
 def loss(model_labels, labels, regularizers):
-    loss = tf.reduce_mean(tf.square(model_labels - labels))
+    loss = tf.reduce_mean(tf.reduce_sum(tf.square(model_labels - labels), 1))
    # loss = -tf.reduce_sum(labels*tf.log(model_labels))
     if regularizers != 0:
         loss += 5e-4 * regularizers
@@ -54,7 +61,7 @@ def loss(model_labels, labels, regularizers):
 
 
 def train(loss):
-    train_step = tf.train.AdamOptimizer(LEARNING_RATE).minimize(loss)
+    train_step = tf.train.MomentumOptimizer(LEARNING_RATE,MOMTENMUM).minimize(loss)
     return train_step
 
 
@@ -86,7 +93,7 @@ def get_batch(batch_size, train_images, train_labels, index_in_epoch, epochs_com
         index_in_epoch = batch_size
         assert batch_size <= num_examples
     end = index_in_epoch
-    return train_images[start:end], train_labels[start:end], index_in_epoch, epochs_completed
+    return train_images[start:end], train_labels[start:end], index_in_epoch, epochs_completed, train_images, train_labels
 
 
 def max_pool_2x2(x):
