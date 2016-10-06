@@ -11,7 +11,7 @@ tf.app.flags.DEFINE_string('summary_dir', '/tmp/faceKeypoint',
 
 
 def train():
-    train_datas, train_labels, validation_datas, validation_labels = split_data()
+    train_datas, train_labels, validation_datas, validation_labels = data_argument()
     epochs_completed = 0
     index_in_epoch = 0
     num_examples = train_datas.shape[0]
