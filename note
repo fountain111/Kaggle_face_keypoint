@@ -1,0 +1,10 @@
+train set = 1740
+validation set = 400
+total = 2140
+
+label = 30
+
+input的数据range = {0,1}
+label 的range = {-1,1}
+
+训练4600个epoch,loss = 0.12 下降不下去了。
