@@ -28,7 +28,7 @@ label 的range = {0,1}
 # left_eyebrow_outer_end_x -> right_eyebrow_outer_end_x
 # left_eyebrow_outer_end_y -> right_eyebrow_outer_end_y
 # mouth_left_corner_x -> mouth_right_corner_x
-# mouth_left_corner_y -> mouth_right_corner_y
+# mouth_left_corner_y -> mouth_right_corner
 
 
 
