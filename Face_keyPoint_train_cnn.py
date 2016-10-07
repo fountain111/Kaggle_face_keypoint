@@ -3,7 +3,7 @@ from Global_defintion import *
 
 FLAGS = tf.app.flags.FLAGS
 
-tf.app.flags.DEFINE_integer('max_steps', 10000,
+tf.app.flags.DEFINE_integer('max_steps', 17000,
                             """Number of batches to run.""")
 tf.app.flags.DEFINE_string('summary_dir', '/tmp/faceKeypoint',
                            """Directory where to write event logs """
@@ -11,7 +11,7 @@ tf.app.flags.DEFINE_string('summary_dir', '/tmp/faceKeypoint',
 
 
 def train():
-    train_datas, train_labels, validation_datas, validation_labels = data_argument()
+    train_datas, train_labels, validation_datas, validation_labels = split_data()
     epochs_completed = 0
     index_in_epoch = 0
     num_examples = train_datas.shape[0]

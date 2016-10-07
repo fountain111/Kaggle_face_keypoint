@@ -10,7 +10,7 @@ FLAGS = tf.app.flags.FLAGS
 def split_data():
     datas = pd.read_csv('training.csv').dropna()
     images = np.vstack(datas['Image'].apply(lambda im: np.fromstring(im, sep=' ') / 255.0).values).astype(np.float32).reshape(-1, INPUT_SIZE)
-    labels = datas[datas.columns[:-1]].values / 96
+    labels = (datas[datas.columns[:-1]].values-48) / 48
     # split data into train&cross_validation
     train_images = images[VALIDATION_SIZE:]
     train_labels = labels[VALIDATION_SIZE:]
@@ -20,9 +20,9 @@ def split_data():
 
 
 def inference(datas, keep_prob):
-    kernel_size1 = [5, 5, 1, 32]
-    kernel_size2 = [5, 5, 32, 64]
-    kernel_size3 = [5, 5, 64, 128]
+    kernel_size1 = [3, 3, 1, 32]
+    kernel_size2 = [2, 2, 32, 64]
+    kernel_size3 = [2, 2, 64, 128]
 
     w1 = weight_variable(kernel_size1)
     b1 = bias_variable([32])
@@ -32,7 +32,7 @@ def inference(datas, keep_prob):
 
     w2 = weight_variable(kernel_size2)
     b2 = bias_variable([64])
-    pool_2 = max_pool_2x2(tf.nn.relu(conv(pool_1, w2)+b2))
+    pool_2 = tf.nn.dropout(max_pool_2x2(tf.nn.relu(conv(pool_1, w2)+b2)),keep_prob)
 
     conv3_w = weight_variable(kernel_size3)
     conv3_b = bias_variable([128])
@@ -50,7 +50,6 @@ def inference(datas, keep_prob):
 
     w5 = weight_variable([500, 30])
     b5 = bias_variable([30])
-
     labels = tf.matmul(fc_2, w5) + b5
     return labels
 
@@ -94,4 +93,5 @@ def max_pool_2x2(x):
 
 def conv(datas, parameter):
     return tf.nn.conv2d(datas, parameter, strides=[1, 1, 1, 1], padding='SAME')
+
 
