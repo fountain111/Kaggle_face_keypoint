@@ -3,7 +3,7 @@ from Global_defintion import *
 
 FLAGS = tf.app.flags.FLAGS
 
-tf.app.flags.DEFINE_integer('max_steps', 25000,
+tf.app.flags.DEFINE_integer('max_steps', 10000,
                             """Number of batches to run.""")
 tf.app.flags.DEFINE_string('summary_dir', '/tmp/faceKeypoint',
                            """Directory where to write event logs """
@@ -34,14 +34,15 @@ def train():
         merge = tf.merge_all_summaries()
         train_writer = tf.train.SummaryWriter(FLAGS.summary_dir + '/train', sess.graph)
         validation_writer = tf.train.SummaryWriter(FLAGS.summary_dir + '/validation')
+        image_op = tf.image_summary('x-input',tf.reshape(x,[-1,96,96,1]),max_images=BATCH_SIZE)
+        image_writer = tf.train.SummaryWriter(FLAGS.summary_dir + '/images')
 
     for step in range(FLAGS.max_steps):
-        batch_x, batch_y, index_in_epoch, epochs_completed,train_datas,train_labels = \
-            get_batch(BATCH_SIZE, train_datas, train_labels, index_in_epoch, epochs_completed, num_examples)
-        sess.run([optimizer,merge], feed_dict={x: batch_x, y_: batch_y,keep_prob: 0.5})
-        train_writer.add_summary(sess.run(merge, feed_dict={x: batch_x, y_: batch_y, keep_prob: 1.0}), step)
-        if step % 1000 == 0 or (step + 1) == FLAGS.max_steps:
-            validation_writer.add_summary(sess.run(merge, feed_dict={x: validation_datas, y_: validation_labels,keep_prob: 1.0}), step)
+        batch_x, batch_y, index_in_epoch, epochs_completed,train_datas,train_labels = get_batch(BATCH_SIZE, train_datas, train_labels, index_in_epoch, epochs_completed, num_examples)
+        sess.run([optimizer,merge,image_op], feed_dict={x: batch_x, y_: batch_y,keep_prob: 0.5})
+        train_writer.add_summary(sess.run(merge,feed_dict={x: batch_x, y_: batch_y, keep_prob: 1.0}), step)
+        validation_writer.add_summary(sess.run(merge, feed_dict={x: validation_datas, y_: validation_labels, keep_prob: 1.0}), step)
+        image_writer.add_summary(sess.run(image_op,feed_dict={x:batch_x}))
         if step == (FLAGS.max_steps - 1):
             print (epochs_completed)
 

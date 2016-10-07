@@ -4,13 +4,13 @@ from Global_defintion import *
 from Tools import *
 
 FLAGS = tf.app.flags.FLAGS
-tf.app.flags.DEFINE_string('loss_and_L2', 'lossandL2', """ set a collection name""")
+#tf.app.flags.DEFINE_string('loss_and_L2', 'lossandL2', """ set a collection name""")
 
 
 def split_data():
     datas = pd.read_csv('training.csv').dropna()
-    images = shuffle(np.vstack(datas['Image'].apply(lambda im: np.fromstring(im, sep=' ') / 255.0).values).astype(np.float32).reshape(-1, INPUT_SIZE))
-    labels = shuffle(datas[datas.columns[:-1]].values / 96)
+    images = np.vstack(datas['Image'].apply(lambda im: np.fromstring(im, sep=' ') / 255.0).values).astype(np.float32).reshape(-1, INPUT_SIZE)
+    labels = datas[datas.columns[:-1]].values / 96
     # split data into train&cross_validation
     train_images = images[VALIDATION_SIZE:]
     train_labels = labels[VALIDATION_SIZE:]
@@ -26,7 +26,9 @@ def inference(datas, keep_prob):
 
     w1 = weight_variable(kernel_size1)
     b1 = bias_variable([32])
-    pool_1 = max_pool_2x2(tf.nn.relu(conv(tf.reshape(datas, [-1, 96, 96, 1]), w1)+b1))
+    pool_1 = tf.nn.dropout(max_pool_2x2(tf.nn.relu(conv(tf.reshape(datas, [-1, 96, 96, 1]), w1)+b1)),keep_prob)
+
+
 
     w2 = weight_variable(kernel_size2)
     b2 = bias_variable([64])
@@ -34,25 +36,30 @@ def inference(datas, keep_prob):
 
     conv3_w = weight_variable(kernel_size3)
     conv3_b = bias_variable([128])
-    pool_3 = max_pool_2x2(tf.nn.relu(conv(pool_2, conv3_w) + conv3_b))
+    pool_3 = tf.nn.dropout(max_pool_2x2(tf.nn.relu(conv(pool_2, conv3_w) + conv3_b)),keep_prob)
+
 
     w3 = weight_variable([12*12*128, 500])
     b3 = bias_variable([500])
 
     fc_1 = tf.nn.dropout(tf.nn.relu(tf.matmul(tf.reshape(pool_3, [-1, 12*12*128]), w3) + b3), keep_prob)
 
-    w4 = weight_variable([500, 30])
-    b4 = bias_variable([30])
+    w4 = weight_variable([500, 500])
+    b4 = bias_variable([500])
+    fc_2 = tf.nn.dropout(tf.nn.relu(tf.matmul(fc_1, w4) + b4), keep_prob)
 
-    labels = tf.matmul(fc_1, w4) + b4
+    w5 = weight_variable([500, 30])
+    b5 = bias_variable([30])
+
+    labels = tf.matmul(fc_2, w5) + b5
     return labels
 
 
 def loss(model_labels, labels):
-    loss = tf.reduce_mean(tf.reduce_sum(tf.square(model_labels - labels), 1))
-    tf.add_to_collection(FLAGS.loss_and_L2, loss)
+    loss_value = tf.reduce_mean(tf.reduce_sum(tf.square(model_labels - labels), 1))
+    #tf.add_to_collection(FLAGS.loss_and_L2, loss)
    # loss = -tf.reduce_sum(labels*tf.log(model_labels))
-    return tf.add_n(tf.get_collection(FLAGS.loss_and_L2))
+    return loss_value
 
 
 def train_in_cnn(loss_op):
