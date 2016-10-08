@@ -70,3 +70,4 @@ def flip_data():
     validation_images = images[:VALIDATION_SIZE]
     validation_labels = labels[:VALIDATION_SIZE]
     return train_images, train_labels, validation_images, validation_labels
+
