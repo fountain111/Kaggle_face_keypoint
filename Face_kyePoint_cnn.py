@@ -40,15 +40,15 @@ def inference(datas, keep_prob):
     #pool_3 = tf.nn.dropout(max_pool_2x2(tf.nn.relu(conv(pool_2, conv3_w) + conv3_b)),keep_prob)
 
 
-    fc1_w = weight_variable([24*24*64, 500])
-    fc1_b = bias_variable([500])
-    fc_1 = tf.nn.dropout(tf.nn.relu(tf.matmul(tf.reshape(pool_2, [-1, 24*24*64]), fc1_w) + fc1_b), keep_prob)
+    fc1_w = weight_variable([96 // 4 * 96 // 4*64, 512])
+    fc1_b = bias_variable([512])
+    fc_1 = tf.nn.dropout(tf.nn.relu(tf.matmul(tf.reshape(pool_2, [-1, 96 // 4 * 96 // 4*64]), fc1_w) + fc1_b), keep_prob)
 
-    fc2_w = weight_variable([500, 500])
-    fc2_b = bias_variable([500])
+    fc2_w = weight_variable([512, 512])
+    fc2_b = bias_variable([512])
     fc_2 = tf.nn.dropout(tf.nn.relu(tf.matmul(fc_1, fc2_w) + fc2_b), keep_prob)
 
-    fc3_w = weight_variable([500, 30])
+    fc3_w = weight_variable([512, 30])
     fc3_b = bias_variable([30])
     labels = tf.matmul(fc_2, fc3_w) + fc3_b
 
