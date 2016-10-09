@@ -6,13 +6,14 @@ from Tools import *
 FLAGS = tf.app.flags.FLAGS
 #tf.app.flags.DEFINE_string('loss_and_L2', 'lossandL2', """ set a collection name""")
 
-global_step = tf.Variable(0)
+global_step = tf.Variable(0,trainable=False)
 learning_rate = tf.train.exponential_decay(1e-3, global_step*BATCH_SIZE, TRARIN_SIZE, 0.95,staircase=True)
 
 def split_data():
     datas = pd.read_csv('training.csv').dropna()
-    images = np.vstack(datas['Image'].apply(lambda im: np.fromstring(im, sep=' ') / 255.0).values).astype(np.float32)#.reshape(-1, INPUT_SIZE)
+    images = np.vstack(datas['Image'].apply(lambda im: np.fromstring(im, sep=' ') / 255.0).values)#.reshape(-1, INPUT_SIZE)
     labels = datas[datas.columns[:-1]].values / 96
+    images,labels = shuffle(images,labels)
     # split data into train&cross_validation
     train_images = images[VALIDATION_SIZE:,...]
     train_labels = labels[VALIDATION_SIZE:]
@@ -47,6 +48,7 @@ def inference(datas, keep_prob):
     fc2_w = weight_variable([512, 512])
     fc2_b = bias_variable([512])
     fc_2 = tf.nn.dropout(tf.nn.relu(tf.matmul(fc_1, fc2_w) + fc2_b), keep_prob)
+    #fc_2 = tf.nn.relu(tf.matmul(fc_1, fc2_w) + fc2_b)
 
     fc3_w = weight_variable([512, 30])
     fc3_b = bias_variable([30])

@@ -3,7 +3,7 @@ from Global_defintion import *
 
 FLAGS = tf.app.flags.FLAGS
 
-tf.app.flags.DEFINE_integer('max_steps', 17000,
+tf.app.flags.DEFINE_integer('max_steps', 33475,
                             """Number of batches to run.""")
 tf.app.flags.DEFINE_string('summary_dir', '/tmp/faceKeypoint',
                            """Directory where to write event logs """
@@ -14,7 +14,7 @@ def train():
     train_datas, train_labels, validation_datas, validation_labels = split_data()
     epochs_completed = 0
     index_in_epoch = 0
-    num_examples = train_datas.shape[0]
+    train_size = train_datas.shape[0]
     #with tf.Graph().as_default():
     x = tf.placeholder('float', shape=[None,  INPUT_SIZE])
     y_ = tf.placeholder('float', shape=[None,  LABEL_SIZE])
@@ -38,7 +38,7 @@ def train():
     image_writer = tf.train.SummaryWriter(FLAGS.summary_dir + '/images')
 
     for step in range(FLAGS.max_steps):
-        batch_x, batch_y, index_in_epoch, epochs_completed,train_datas,train_labels = get_batch(BATCH_SIZE, train_datas, train_labels, index_in_epoch, epochs_completed, num_examples)
+        batch_x, batch_y, index_in_epoch, epochs_completed,train_datas,train_labels = next_batch(BATCH_SIZE, train_datas, train_labels, index_in_epoch, epochs_completed, train_size)
         sess.run([optimizer,merge,image_op], feed_dict={x: batch_x, y_: batch_y,keep_prob: 0.5})
         train_writer.add_summary(sess.run(merge,feed_dict={x: batch_x, y_: batch_y, keep_prob: 1.0}), step)
         validation_writer.add_summary(sess.run(merge, feed_dict={x: validation_datas, y_: validation_labels, keep_prob: 1.0}), step)

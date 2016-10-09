@@ -31,30 +31,42 @@ def data_argument():
     validation_labels = labels[:VALIDATION_SIZE]
     return train_images, train_labels, validation_images, validation_labels
 
-def shuffle(datas):
-    perm = np.arange(datas.shape[0])
-    np.random.shuffle(perm)
-    return datas[perm]
+def shuffle(datas,labels):
+    shuffle_index = np.arange(datas.shape[0])
+    np.random.shuffle(shuffle_index)
+    return datas[shuffle_index],labels[shuffle_index]
 
 
-def get_batch(batch_size, train_images, train_labels, index_in_epoch, epochs_completed, num_examples):
+def get_batch(batch_size, train_images, train_labels, index_in_epoch, epochs_completed, train_size):
     start = index_in_epoch
     index_in_epoch += batch_size
     # when all trainig data have been already used, it is reorder randomly
-    if index_in_epoch > num_examples:
+    if index_in_epoch > train_size:
         # finished epoch
         epochs_completed += 1
         # shuffle the data
-        perm = np.arange(num_examples)
+        perm = np.arange(train_size)
         np.random.shuffle(perm)
         train_images = train_images[perm]
         train_labels = train_labels[perm]
         # start next epoch
         start = 0
         index_in_epoch = batch_size
-        assert batch_size <= num_examples
+        assert batch_size <= train_size
     end = index_in_epoch
     return train_images[start:end], train_labels[start:end], index_in_epoch, epochs_completed, train_images, train_labels
+
+def next_batch(batch_size, train_images, train_labels, index_in_epoch, epochs_completed, train_size):
+    start = index_in_epoch
+    index_in_epoch += batch_size
+    if index_in_epoch > train_size:
+        epochs_completed += 1
+        train_images,train_labels = shuffle(train_images,train_labels)
+        start = 0
+        index_in_epoch = batch_size
+    end = index_in_epoch
+    return train_images[start:end], train_labels[start:end], index_in_epoch, epochs_completed, train_images, train_labels
+
 
 def flip_data():
     datas = pd.read_csv('training.csv').dropna()
