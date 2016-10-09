@@ -11,12 +11,12 @@ learning_rate = tf.train.exponential_decay(1e-3, global_step*BATCH_SIZE, TRARIN_
 
 def split_data():
     datas = pd.read_csv('training.csv').dropna()
-    images = np.vstack(datas['Image'].apply(lambda im: np.fromstring(im, sep=' ') / 255.0).values).astype(np.float32).reshape(-1, INPUT_SIZE)
+    images = np.vstack(datas['Image'].apply(lambda im: np.fromstring(im, sep=' ') / 255.0).values).astype(np.float32)#.reshape(-1, INPUT_SIZE)
     labels = datas[datas.columns[:-1]].values / 96
     # split data into train&cross_validation
-    train_images = images[VALIDATION_SIZE:]
+    train_images = images[VALIDATION_SIZE:,...]
     train_labels = labels[VALIDATION_SIZE:]
-    validation_images = images[:VALIDATION_SIZE]
+    validation_images = images[:VALIDATION_SIZE,...]
     validation_labels = labels[:VALIDATION_SIZE]
     return train_images, train_labels, validation_images, validation_labels
 
