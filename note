@@ -31,6 +31,10 @@ label 的range = {0,1}
 # mouth_left_corner_y -> mouth_right_corner
 
 
+#CNN的 一个特征图对应一个神经元(为了batch normalization),batch_norm:
+也就是一个特征图对应一个gamma和beta,计算一个batch的mean和variance,gamma的shape是【-1,特征图MAP】
+
+
 
 
 

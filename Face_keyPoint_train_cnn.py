@@ -3,7 +3,7 @@ from Global_defintion import *
 
 FLAGS = tf.app.flags.FLAGS
 
-tf.app.flags.DEFINE_integer('max_steps', 17000,
+tf.app.flags.DEFINE_integer('max_steps', 5000,
                             """Number of batches to run.""")
 tf.app.flags.DEFINE_string('summary_dir', '/tmp/faceKeypoint',
                            """Directory where to write event logs """
