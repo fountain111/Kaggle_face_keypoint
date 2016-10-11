@@ -108,13 +108,45 @@ def conv(datas, parameter):
     return tf.nn.conv2d(datas, parameter, strides=[1, 1, 1, 1], padding='SAME')
 
 
-def conv_bn(datas,conv_w,gamma,beta,epsilon):
+def conv_bn(datas,conv_w,gamma,beta,epsilon,is_training):
+    decay = 0.999
     conv_t = conv(datas,conv_w)
+    pop_mean = tf.Variable(tf.zeros([conv_t.get_shape()[-1]]), trainable=False)
+    pop_var = tf.Variable(tf.ones([conv_t.get_shape()[-1]]), trainable=False)
+    if is_training:
+        batch_mean, batch_variance = tf.nn.moments(conv_t, list(range(len(layer.get_shape()) - 1)))
+
+        train_mean = tf.assign(pop_mean,
+                               pop_mean * decay + batch_mean * (1 - decay))
+        train_var = tf.assign(pop_var,
+                              pop_var * decay + batch_variance * (1 - decay))
+        with tf.control_dependencies([train_mean, train_var]):
+            return tf.nn.batch_normalization(conv_t,
+                                             batch_mean, batch_variance, beta, gamma, epsilon)
+    else:
+        return tf.nn.batch_normalization(conv_t,
+                                         pop_mean, pop_var, beta, gamma, epsilon)
+
     batch_mean, batch_variance = tf.nn.moments(conv_t, list(range(len(conv_t.get_shape()) - 1)))
     return tf.nn.batch_normalization(conv_t, batch_mean, batch_mean, beta, gamma, epsilon)
 
 
-def norm_bn(datas,weights,biases,gamma,beta,epsilon):
+def norm_bn(datas,weights,biases,gamma,beta,epsilon,is_training):
+    decay = 0.999
     layer = tf.matmul(datas, weights) +biases
-    batch_mean, batch_variance = tf.nn.moments(layer, list(range(len(layer.get_shape()) - 1)))
-    return tf.nn.batch_normalization(layer, batch_mean, batch_mean, beta, gamma, epsilon)
+    pop_mean = tf.Variable(tf.zeros([layer.get_shape()[-1]]), trainable=False)
+    pop_var = tf.Variable(tf.ones([layer.get_shape()[-1]]), trainable=False)
+    if is_training:
+        batch_mean, batch_variance = tf.nn.moments(layer, list(range(len(layer.get_shape()) - 1)))
+
+        train_mean = tf.assign(pop_mean,
+                               pop_mean * decay + batch_mean * (1 - decay))
+        train_var = tf.assign(pop_var,
+                              pop_var * decay + batch_variance * (1 - decay))
+        with tf.control_dependencies([train_mean, train_var]):
+            return tf.nn.batch_normalization(layer,
+                batch_mean, batch_variance, beta, gamma, epsilon)
+    else:
+        return tf.nn.batch_normalization(layer,
+            pop_mean, pop_var, beta, gamma, epsilon)
+
