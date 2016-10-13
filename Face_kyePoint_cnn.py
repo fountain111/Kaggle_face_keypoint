@@ -95,7 +95,7 @@ def inference_with_bn(datas, keep_prob,is_training):
     fc2_z = tf.matmul(fc_1,fc2_w)+ fc2_b
     mean, var = tf.nn.moments(fc2_z, [0])
     bn_fc2 = tf.nn.batch_normalization(fc2_z,mean,var,fc2_beta,fc2_gamma,EPSILON)
-    fc_2 = tf.nn.relu(bn_fc2)
+    fc_2 = tf.nn.dropout(tf.nn.relu(bn_fc2),keep_prob)
 
     fc3_w = weight_variable([512, 30])
     fc3_b = bias_variable([30])
