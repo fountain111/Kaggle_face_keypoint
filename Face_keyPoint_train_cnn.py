@@ -45,9 +45,9 @@ def train():
         train_writer.add_summary(sess.run(merge,feed_dict={x: batch_x, y_: batch_y, keep_prob: 1.0}), step)
         validation_writer.add_summary(sess.run(merge, feed_dict={x: validation_datas, y_: validation_labels, keep_prob: 1.0}), step)
         image_writer.add_summary(sess.run(image_op,feed_dict={x:batch_x}))
-    if early_stop:
-        test_predicates = sess.run(test_predicate,feed_dict={x:test,keep_prob:1.0})
-        to_csv(test_predicates)
+   # if early_stop:
+    #    test_predicates = sess.run(test_predicate,feed_dict={x:test,keep_prob:1.0})
+     #   to_csv(test_predicates)
 
 
 
