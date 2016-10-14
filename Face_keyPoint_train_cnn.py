@@ -20,14 +20,16 @@ def train():
     y_ = tf.placeholder('float', shape=[None,  LABEL_SIZE])
     keep_prob = tf.placeholder('float')
 
-    model_labels = inference(x, keep_prob)
+    model_labels = inference_with_bn(x, keep_prob,is_training=True)
+    #model_labels = inference(x,keep_prob)
 
     loss_op = loss(model_labels, y_)
 
     optimizer = train_in_cnn(loss_op)
 
-    tf.scalar_summary("loss", loss_op)
+    test_predicate = inference_with_bn(x,keep_prob,is_training=False)
 
+    tf.scalar_summary("loss", loss_op)
     init = tf.initialize_all_variables()
     sess = tf.Session()
     sess.run(init)
@@ -43,8 +45,12 @@ def train():
         train_writer.add_summary(sess.run(merge,feed_dict={x: batch_x, y_: batch_y, keep_prob: 1.0}), step)
         validation_writer.add_summary(sess.run(merge, feed_dict={x: validation_datas, y_: validation_labels, keep_prob: 1.0}), step)
         image_writer.add_summary(sess.run(image_op,feed_dict={x:batch_x}))
-        if step == (FLAGS.max_steps - 1):
-            print (epochs_completed)
+   # if early_stop:
+    #    test_predicates = sess.run(test_predicate,feed_dict={x:test,keep_prob:1.0})
+     #   to_csv(test_predicates)
+
+
+
 
 
 
