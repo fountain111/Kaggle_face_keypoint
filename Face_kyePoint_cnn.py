@@ -22,6 +22,12 @@ def split_data():
     return train_images, train_labels, validation_images, validation_labels
 
 
+def load_test_data():
+    datas = pd.read_csv('test.csv')
+    images = np.vstack(datas['Image'].apply(lambda im: np.fromstring(im, sep=' ') / 255.0).values).astype(np.float32)#.reshape(-1, INPUT_SIZE)
+    return images
+
+
 def inference(datas, keep_prob):
     datas = tf.reshape(datas, [-1, 96, 96, 1])
 
@@ -59,44 +65,52 @@ def inference_with_bn(datas, keep_prob,is_training):
 
     kernel_size1 = [5, 5, 1, 32]
     kernel_size2 = [5, 5, 32, 64]
-
+    scope = "conv_1"
     conv1_w = weight_variable(kernel_size1)
     conv1_b = bias_variable([32])
     conv1_gamma = weight_variable([32])
     conv1_beta = weight_variable([32])
     conv1 = tf.nn.bias_add(conv(datas,conv1_w),conv1_b)
-    mean ,var = tf.nn.moments(conv1,[0,1,2])
-    bn_conv1 = tf.nn.batch_normalization(conv1,mean,var,conv1_beta,conv1_gamma,EPSILON)
+   # mean ,var = tf.nn.moments(conv1,[0,1,2])
+   # bn_conv1 = tf.nn.batch_normalization(conv1,mean,var,conv1_beta,conv1_gamma,EPSILON)
+    bn_conv1 = norm_layer(conv1,is_training)
     pool_1 = max_pool_2x2(tf.nn.relu(bn_conv1))
 
+    scope = "conv_2"
     conv2_w = weight_variable(kernel_size2)
     conv2_b = bias_variable([64])
     conv2_gamma = weight_variable([64])
     conv2_beta  = weight_variable([64])
     conv2 = tf.nn.bias_add(conv(pool_1, conv2_w), conv2_b)
-    mean, var = tf.nn.moments(conv2, [0, 1, 2])
-    bn_conv2 = tf.nn.batch_normalization(conv2, mean, var, conv2_beta, conv2_gamma, EPSILON)
+    #mean, var = tf.nn.moments(conv2, [0, 1, 2])
+    #bn_conv2 = tf.nn.batch_normalization(conv2, mean, var, conv2_beta, conv2_gamma, EPSILON)
+    bn_conv2 = norm_layer(conv2,is_training)
     pool_2 = max_pool_2x2(tf.nn.relu(bn_conv2))
 
+    scope = "fc1"
     pool_2 = tf.reshape(pool_2, [-1, 96 // 4 * 96 // 4*64])
     fc1_w = weight_variable([96 // 4 * 96 // 4*64, 512])
     fc1_b= bias_variable([512])
     fc1_z = tf.matmul(pool_2,fc1_w) + fc1_b
     fc1_gamma = weight_variable([512])
     fc1_beta = weight_variable([512])
-    mean, var = tf.nn.moments(fc1_z, [0])
-    bn_fc1 = tf.nn.batch_normalization(fc1_z,mean,var,fc1_beta,fc1_gamma,EPSILON)
+    #mean, var = tf.nn.moments(fc1_z, [0])
+    #bn_fc1 = tf.nn.batch_normalization(fc1_z,mean,var,fc1_beta,fc1_gamma,EPSILON)
+    bn_fc1 = norm_layer(fc1_z,is_training)
     fc_1 = tf.nn.relu(bn_fc1)
 
+    scope ="fc2"
     fc2_w = weight_variable([512, 512])
     fc2_b = bias_variable([512])
     fc2_gamma = weight_variable([512])
     fc2_beta = weight_variable([512])
     fc2_z = tf.matmul(fc_1,fc2_w)+ fc2_b
-    mean, var = tf.nn.moments(fc2_z, [0])
-    bn_fc2 = tf.nn.batch_normalization(fc2_z,mean,var,fc2_beta,fc2_gamma,EPSILON)
+    #mean, var = tf.nn.moments(fc2_z, [0])
+    #bn_fc2 = tf.nn.batch_normalization(fc2_z,mean,var,fc2_beta,fc2_gamma,EPSILON)
+    bn_fc2 = norm_layer(fc2_z,is_training)
     fc_2 = tf.nn.dropout(tf.nn.relu(bn_fc2),keep_prob)
 
+    scope = "fc3"
     fc3_w = weight_variable([512, 30])
     fc3_b = bias_variable([30])
     labels = tf.matmul(fc_2, fc3_w) + fc3_b
@@ -148,26 +162,17 @@ def conv(datas, parameter):
 
 
 
+def norm_layer(inputs,phase_train,scope = None):
+    #return tf.cond(phase_train,
+     #   lambda:tf.contrib.layers.batch_norm(inputs,scale=True,updates_collections=None,scope=scope, is_training = True),
 
-
-def norm_wrapper(datas,is_training,decay = 0.999):
-    scale = tf.Variable(tf.ones([datas.get_shape()[-1]]))
-    beta = tf.Variable(tf.zeros([datas.get_shape()[-1]]))
-    pop_mean = tf.Variable(tf.zeros([datas.get_shape()[-1]]), trainable=False)
-    pop_var = tf.Variable(tf.ones([datas.get_shape()[-1]]), trainable=False)
-    tf.scalar_summary('pop_mean',pop_mean)
-    if is_training:
-        batch_mean, batch_var = tf.nn.moments(datas, [0])
-        train_mean = tf.assign(pop_mean,
-                               pop_mean * decay + batch_mean * (1 - decay))
-        train_var = tf.assign(pop_var,
-                              pop_var * decay + batch_var * (1 - decay))
-        with tf.control_dependencies([train_mean, train_var]):
-            return tf.nn.batch_normalization(datas,
-                                             batch_mean, batch_var, beta, scale, EPSILON)
+      #  lambda: tf.contrib.layers.batch_norm(inputs,scale=True,updates_collections=None,scope=scope,is_training=False))
+    if phase_train is not None:
+        return tf.contrib.layers.batch_norm(inputs, scale=True, updates_collections=None, is_training=True)
     else:
-        return tf.nn.batch_normalization(datas,
-                                         pop_mean, pop_var, beta, scale, EPSILON)
+        return tf.contrib.layers.batch_norm(inputs, scale=True, updates_collections=None,
+                                             is_training=False)
+
 
 
 

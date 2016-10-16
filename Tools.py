@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 from Global_defintion import *
-
+FLOOKUP = 'IdLookupTable.csv'
 
 flip_indices = [
     (0, 2), (1, 3),
@@ -125,3 +125,36 @@ def batch_norm(datas, beta_and_gamma_size):
 
     norm = tf.nn.batch_normalization(datas,mean,var,beta,gamma,1e-3)
 
+def generate_submission(test_dataset, sess, eval_prediction, x,keep_prob,phase_train):
+    labels = eval_in_batches(test_dataset, sess, eval_prediction, x,keep_prob,phase_train)
+
+    labels *= 96.0
+    labels = labels.clip(0,96)
+    lookup_table = pd.read_csv(FLOOKUP)
+    values = []
+
+    for index, row in lookup_table.iterrows():
+        values.append((
+            row['RowId'],
+            labels[row.ImageId - 1][np.where(row.FeatureName)[0][0]],
+        ))
+    submission = pd.DataFrame(values, columns=('RowId', 'Location'))
+    submission.to_csv('submission.csv', index=False)
+
+
+def eval_in_batches(data, sess, eval_prediction, x,keep_prob,phase_train):
+    """Get all predictions for a dataset by running it in small batches."""
+    size = data.shape[0]
+    predictions = np.ndarray(shape=(size, LABEL_SIZE), dtype=np.float32)
+    for begin in xrange(0, size, BATCH_SIZE):
+        end = begin + BATCH_SIZE
+        if end <= size:
+            predictions[begin:end, :] = sess.run(
+                eval_prediction,
+                feed_dict={x: data[begin:end, ...],keep_prob:1,phase_train:False})
+        else:
+            batch_predictions = sess.run(
+                eval_prediction,
+                feed_dict={x: data[-BATCH_SIZE:, ...],keep_prob:1,phase_train:False})
+            predictions[begin:, :] = batch_predictions[begin - size:, :]
+    return predictions
