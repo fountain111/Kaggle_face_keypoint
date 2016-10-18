@@ -24,8 +24,12 @@ def split_data():
 
 def load_test_data():
     datas = pd.read_csv('test.csv')
+    train_data = pd.read_csv('training.csv')
+    cols = train_data.columns[:-1]
+
     images = np.vstack(datas['Image'].apply(lambda im: np.fromstring(im, sep=' ') / 255.0).values).astype(np.float32)#.reshape(-1, INPUT_SIZE)
-    return images
+    return images,cols
+
 
 
 def inference(datas, keep_prob):
