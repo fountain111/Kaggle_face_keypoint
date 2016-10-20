@@ -39,7 +39,6 @@ def train(if_train):
         image_writer = tf.train.SummaryWriter(FLAGS.summary_dir + '/images')
         best_valid = np.inf
         if if_train:
-
             for step in range(FLAGS.max_steps):
                 batch_x, batch_y, index_in_epoch, epochs_completed,train_datas,train_labels = get_batch(BATCH_SIZE, train_datas, train_labels, index_in_epoch, epochs_completed, num_examples)
                 sess.run([optimizer,merge,image_op], feed_dict={x: batch_x, y_: batch_y,keep_prob: 0.5,phase_train:True})
@@ -52,7 +51,6 @@ def train(if_train):
                     best_valid = loss_valid
                     best_valid_step = step
                 elif best_valid_step + EARY_STOP_PATIENCE < step:
-
                     print ("early stop at {},best loss was {}",step,best_valid)
             saver.save(sess,'model.ckpt',global_step=step+1)
         else:

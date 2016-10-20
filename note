@@ -35,8 +35,20 @@ label 的range = {0,1}
 也就是一个特征图对应一个gamma和beta,计算一个batch的mean和variance,gamma的shape是【-1,特征图MAP】
 
 
+测试了一下TENSORFLOW,CNN+BN+DROPOUT在人脸识别位置点上的应用,7000多条数据有null的全部去掉,只剩下2140条数据,
+可以用tensorflow在cpu上跑一下。总结一下,神经网络为CNN->BN->POOLING->CNN->BN->POOLING->FC-BN->FC->BN->
+DROPOUT->FC->OUTPUT
 
-10
+1:tensorflow做的非常不错,有google爸爸支持,一些bug提出来,瞬间有人秒回,非常好。
+2:越deep,效果越好。
+3:bn层有一定的泛化能力(和论文描述的情况一致)
+4:dropout也需要多试验,具体问题具体分析。
+5:可能CNN如果要过滤高频信号,核要做的小,太大了会有问题。
+
+
+
+
+
 
 
 
