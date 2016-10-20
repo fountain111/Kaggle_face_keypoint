@@ -24,7 +24,7 @@ def data_argument():
 
     images = np.vstack((images_flip,images))
     labels = np.vstack((labels_flip,labels))
-
+    images,labels = shuffle(images,labels)
     #df = pd.DataFrame(images)
     #df.to_csv('images.csv')
     # split data into train&cross_validation

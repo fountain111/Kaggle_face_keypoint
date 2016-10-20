@@ -11,7 +11,8 @@ tf.app.flags.DEFINE_string('summary_dir', '/tmp/faceKeypoint',
 
 
 def train(if_train):
-        train_datas, train_labels, validation_datas, validation_labels = split_data()
+
+        train_datas, train_labels, validation_datas, validation_labels = data_argument()
         epochs_completed = 0
         index_in_epoch = 0
         num_examples = train_datas.shape[0]
@@ -38,6 +39,8 @@ def train(if_train):
         image_op = tf.image_summary('x-input',tf.reshape(x,[-1,96,96,1]),max_images=BATCH_SIZE)
         image_writer = tf.train.SummaryWriter(FLAGS.summary_dir + '/images')
         best_valid = np.inf
+        load_model = saver.restore(sess, 'model.ckpt')
+
         if if_train:
             for step in range(FLAGS.max_steps):
                 batch_x, batch_y, index_in_epoch, epochs_completed,train_datas,train_labels = get_batch(BATCH_SIZE, train_datas, train_labels, index_in_epoch, epochs_completed, num_examples)
@@ -64,7 +67,7 @@ def train(if_train):
 
 
 def main(argv=None):
-    train(if_train=False)
+    train(if_train=True)
 
 
 
