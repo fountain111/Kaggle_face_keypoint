@@ -12,27 +12,50 @@ flip_indices = [
 
 def data_argument():
     datas = pd.read_csv('training.csv').dropna()
-    images = np.vstack(datas['Image'].apply(lambda im: np.fromstring(im, sep=' ') / 255.0).values).astype(np.float32).reshape(-1, INPUT_SIZE)
-    labels = datas[datas.columns[:-1]].values / 96
+    images,labels = flip_images(datas)
+    images,labels = shuffle(images,labels)
+    return split_trainValidation(images,labels)
+
+def dataArgument_withColumn(datas,index_Col):
+    #datas = pd.read_csv('training.csv')
+    #datas = pd.DataFrame(datas)
+
+    images,labels = flip_images(datas)
+    images,labels = shuffle(images,labels)
+    images = pd.DataFrame(images)
+    labels = pd.DataFrame(labels)
+    i_labels = labels.ix[:,index_Col-1: index_Col-1].dropna()
+    i_images = images.ix[i_labels.index]
+    i_labels = i_labels.as_matrix()
+    i_images = i_images.as_matrix()
+    return split_trainValidation(i_images,i_labels)
+
+def flip_images(input):
+    images = np.vstack(input['Image'].apply(lambda im: np.fromstring(im, sep=' ') / 255.0).values).astype(
+        np.float32).reshape(-1, INPUT_SIZE)
+    labels = input[input.columns[:-1]].values / 96
     images_flip = np.copy(images)
     images_flip = images_flip.reshape(-1, 1, 96, 96)
     images_flip = images_flip[:, :, :, ::-1]
     images_flip = images_flip.reshape(-1, INPUT_SIZE)
     labels_flip = np.copy(labels)
     for a, b in flip_indices:
-        labels_flip[flip_indices, a], labels_flip[flip_indices, b] = (labels_flip[flip_indices,b],labels_flip[flip_indices, a])
+        labels_flip[flip_indices, a], labels_flip[flip_indices, b] = (
+        labels_flip[flip_indices, b], labels_flip[flip_indices, a])
 
-    images = np.vstack((images_flip,images))
-    labels = np.vstack((labels_flip,labels))
-    images,labels = shuffle(images,labels)
-    #df = pd.DataFrame(images)
-    #df.to_csv('images.csv')
-    # split data into train&cross_validation
-    train_images = images[VALIDATION_SIZE:]
-    train_labels = labels[VALIDATION_SIZE:]
-    validation_images = images[:VALIDATION_SIZE]
-    validation_labels = labels[:VALIDATION_SIZE]
-    return train_images, train_labels, validation_images, validation_labels
+    images = np.vstack((images_flip, images))
+    labels = np.vstack((labels_flip, labels))
+    return images,labels
+
+def split_trainValidation(input,labels):
+
+    validation_size = np.int64(input[0].shape[0] * 0.05)
+    train_images = input[validation_size:]
+    train_labels = labels[validation_size:]
+    validation_images = input[:validation_size]
+    validation_labels = labels[:validation_size]
+    return train_images,train_labels,validation_images,validation_labels
+
 
 def shuffle(datas,labels):
     shuffle_index = np.arange(datas.shape[0])
@@ -70,21 +93,6 @@ def next_batch(batch_size, train_images, train_labels, index_in_epoch, epochs_co
     end = index_in_epoch
     return train_images[start:end], train_labels[start:end], index_in_epoch, epochs_completed, train_images, train_labels
 
-
-def flip_data():
-    datas = pd.read_csv('training.csv').dropna()
-    images_1 = np.vstack(datas['Image'].apply(lambda im: np.fromstring(im, sep=' ') / 255.0).values).astype(np.float32).reshape(-1, INPUT_SIZE)
-    labels = datas[datas.columns[:-1]].values / 96
-    images = images_1.reshape(-1,1,96,96)
-    images = images[:,:,:,::-1]
-    images = images.reshape(-1,INPUT_SIZE)
-
-    # split data into train&cross_validation
-    train_images = images[VALIDATION_SIZE:]
-    train_labels = labels[VALIDATION_SIZE:]
-    validation_images = images[:VALIDATION_SIZE]
-    validation_labels = labels[:VALIDATION_SIZE]
-    return train_images, train_labels, validation_images, validation_labels
 
 def batch_norm(x, n_out, phase_train):
     """
