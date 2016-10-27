@@ -70,13 +70,18 @@ def inference_with_bn(datas, keep_prob,is_training):
 
     kernel_size1 = [5, 5, 1, 32]
     kernel_size2 = [5, 5, 32, 64]
+    kernel_size3 = [5, 5, 64, 128]
+    kernel_size4 = [5, 5, 128, 256]
+    kernel_size5 = [5, 5, 256, 512]
+
+
     conv1_w = weight_variable(kernel_size1)
     conv1_b = bias_variable([32])
     conv1 = tf.nn.bias_add(conv(datas,conv1_w),conv1_b)
    # mean ,var = tf.nn.moments(conv1,[0,1,2])
    # bn_conv1 = tf.nn.batch_normalization(conv1,mean,var,conv1_beta,conv1_gamma,EPSILON)
     bn_conv1 = norm_layer(conv1,is_training)
-    pool_1 = tf.nn.dropout(max_pool_2x2(tf.nn.relu(bn_conv1)),keep_prob)
+    pool_1 = max_pool_2x2(tf.nn.relu(bn_conv1))
 
     conv2_w = weight_variable(kernel_size2)
     conv2_b = bias_variable([64])
@@ -84,13 +89,37 @@ def inference_with_bn(datas, keep_prob,is_training):
     #mean, var = tf.nn.moments(conv2, [0, 1, 2])
     #bn_conv2 = tf.nn.batch_normalization(conv2, mean, var, conv2_beta, conv2_gamma, EPSILON)
     bn_conv2 = norm_layer(conv2,is_training)
-    pool_2 = tf.nn.dropout(max_pool_2x2(tf.nn.relu(bn_conv2)),keep_prob)
+    pool_2 = max_pool_2x2(tf.nn.relu(bn_conv2))
+
+    conv3_w = weight_variable(kernel_size3)
+    conv3_b = bias_variable([128])
+    conv3 = tf.nn.bias_add(conv(pool_2, conv3_w), conv3_b)
+    # mean, var = tf.nn.moments(conv2, [0, 1, 2])
+    # bn_conv2 = tf.nn.batch_normalization(conv2, mean, var, conv2_beta, conv2_gamma, EPSILON)
+    bn_conv3 = norm_layer(conv3, is_training)
+    pool_3 = max_pool_2x2(tf.nn.relu(bn_conv3))
+
+    conv4_w = weight_variable(kernel_size4)
+    conv4_b = bias_variable([256])
+    conv4 = tf.nn.bias_add(conv(pool_3, conv4_w), conv4_b)
+    # mean, var = tf.nn.moments(conv2, [0, 1, 2])
+    # bn_conv2 = tf.nn.batch_normalization(conv2, mean, var, conv2_beta, conv2_gamma, EPSILON)
+    bn_conv4 = norm_layer(conv4, is_training)
+    pool_4 = max_pool_2x2(tf.nn.relu(bn_conv4))
+
+    conv5_w = weight_variable(kernel_size5)
+    conv5_b = bias_variable([512])
+    conv5 = tf.nn.bias_add(conv(pool_4, conv5_w), conv5_b)
+    # mean, var = tf.nn.moments(conv2, [0, 1, 2])
+    # bn_conv2 = tf.nn.batch_normalization(conv2, mean, var, conv2_beta, conv2_gamma, EPSILON)
+    bn_conv5 = norm_layer(conv5, is_training)
+    pool_5 = max_pool_2x2(tf.nn.relu(bn_conv5))
 
     scope = "fc1"
-    pool_2 = tf.reshape(pool_2, [-1, 96 // 4 * 96 // 4*64])
-    fc1_w = weight_variable([96 // 4 * 96 // 4*64, 512])
+    pool_6 = tf.reshape(pool_5, [-1, 96 // 32 * 96 // 32*512])
+    fc1_w = weight_variable([96 // 32 * 96 //32*512, 512])
     fc1_b= bias_variable([512])
-    fc1_z = tf.matmul(pool_2,fc1_w) + fc1_b
+    fc1_z = tf.matmul(pool_6,fc1_w) + fc1_b
     #mean, var = tf.nn.moments(fc1_z, [0])
     #bn_fc1 = tf.nn.batch_normalization(fc1_z,mean,var,fc1_beta,fc1_gamma,EPSILON)
     bn_fc1 = norm_layer(fc1_z,is_training)
@@ -106,8 +135,8 @@ def inference_with_bn(datas, keep_prob,is_training):
     fc_2 = tf.nn.dropout(tf.nn.relu(bn_fc2),keep_prob)
 
     scope = "fc3"
-    fc3_w = weight_variable([512, 1])
-    fc3_b = bias_variable([1])
+    fc3_w = weight_variable([512, 4])
+    fc3_b = bias_variable([4])
     labels = tf.matmul(fc_2, fc3_w) + fc3_b
 
     return labels
@@ -121,8 +150,8 @@ def loss(model_labels, labels):
 
 
 def train_in_cnn(loss_op):
-    #train_step = tf.train.AdamOptimizer(learning_rate,0.98).minimize(loss_op, global_step=global_step)
-    train_step = tf.train.AdamOptimizer(1e-3).minimize(loss_op)
+    train_step = tf.train.AdamOptimizer(learning_rate,0.98).minimize(loss_op, global_step=global_step)
+    #train_step = tf.train.AdamOptimizer(1e-3).minimize(loss_op)
 
     return train_step
 

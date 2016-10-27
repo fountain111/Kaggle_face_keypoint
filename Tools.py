@@ -16,7 +16,7 @@ def data_argument():
     images,labels = shuffle(images,labels)
     return split_trainValidation(images,labels)
 
-def dataArgument_withColumn(datas,index_Col):
+def dataArgument_withColumn(datas,start,end):
     #datas = pd.read_csv('training.csv')
     #datas = pd.DataFrame(datas)
 
@@ -24,11 +24,14 @@ def dataArgument_withColumn(datas,index_Col):
     images,labels = shuffle(images,labels)
     images = pd.DataFrame(images)
     labels = pd.DataFrame(labels)
-    i_labels = labels.ix[:,index_Col-1: index_Col-1].dropna()
+    i_labels = labels.ix[:,start:end].dropna()
     i_images = images.ix[i_labels.index]
     i_labels = i_labels.as_matrix()
     i_images = i_images.as_matrix()
     return split_trainValidation(i_images,i_labels)
+
+
+
 
 def flip_images(input):
     images = np.vstack(input['Image'].apply(lambda im: np.fromstring(im, sep=' ') / 255.0).values).astype(
