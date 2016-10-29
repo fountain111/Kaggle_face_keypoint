@@ -16,10 +16,20 @@ def data_argument():
     images,labels = shuffle(images,labels)
     return split_trainValidation(images,labels)
 
-def dataArgument_withColumn(datas,start,end):
-    #datas = pd.read_csv('training.csv')
-    #datas = pd.DataFrame(datas)
+def DataCenter_eye(input,start,end):
+    images = np.vstack(input['Image'].apply(lambda im: np.fromstring(im, sep=' ') / 255.0).values).astype(
+        np.float32).reshape(-1, INPUT_SIZE)    #images, labels = shuffle(images, labels)
+    labels = input[input.columns[:-1]].values / 96
+    images,labels = shuffle(images,labels)
+    images = pd.DataFrame(images)
+    labels = pd.DataFrame(labels)
+    i_labels = labels.ix[:, start:end].dropna()
+    i_images = images.ix[i_labels.index]
+    i_labels = i_labels.as_matrix()
+    i_images = i_images.as_matrix()
+    return split_trainValidation(i_images, i_labels)
 
+def dataArgument_withColumn(datas,start,end):
     images,labels = flip_images(datas)
     images,labels = shuffle(images,labels)
     images = pd.DataFrame(images)

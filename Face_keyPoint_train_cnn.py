@@ -16,7 +16,7 @@ def train(if_train):
         eye_center  = "eye_center"
         datas = pd.read_csv('training.csv')
         #train_datas_all, train_labels_all, validation_datas_all, validation_labels_all = data_argument()
-        train_datas, train_labels, validation_datas, validation_labels = dataArgument_withColumn(datas,0,3)
+        train_datas, train_labels, validation_datas, validation_labels = DataCenter_eye(datas,0,3)
         epochs_completed = 0
         index_in_epoch = 0
         num_examples = train_datas.shape[0]

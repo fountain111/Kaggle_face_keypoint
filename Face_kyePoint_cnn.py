@@ -68,11 +68,11 @@ def inference(datas, keep_prob):
 def inference_with_bn(datas, keep_prob,is_training):
     datas = tf.reshape(datas, [-1, 96, 96, 1])
 
-    kernel_size1 = [5, 5, 1, 32]
-    kernel_size2 = [5, 5, 32, 64]
-    kernel_size3 = [5, 5, 64, 128]
-    kernel_size4 = [5, 5, 128, 256]
-    kernel_size5 = [5, 5, 256, 512]
+    kernel_size1 = [3, 3, 1, 32]
+    kernel_size2 = [3, 3, 32, 64]
+    kernel_size3 = [3, 3, 64, 128]
+    kernel_size4 = [3, 3, 128, 256]
+    kernel_size5 = [3, 3, 256, 512]
 
 
     conv1_w = weight_variable(kernel_size1)
