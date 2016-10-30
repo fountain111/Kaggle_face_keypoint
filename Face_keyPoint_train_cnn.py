@@ -1,6 +1,5 @@
 from Face_kyePoint_cnn import *
 from Global_defintion import *
-
 FLAGS = tf.app.flags.FLAGS
 
 tf.app.flags.DEFINE_integer('max_steps', 30000,
@@ -12,11 +11,15 @@ tf.app.flags.DEFINE_string('model_dir', '/home/gg/PycharmProjects/Kaggle_face_ke
                            """Directory where to write event logs """
                            """and checkpoint.""")
 
+
+
 def train(if_train):
         eye_center  = "eye_center"
-        datas = pd.read_csv('training.csv')
         #train_datas_all, train_labels_all, validation_datas_all, validation_labels_all = data_argument()
-        train_datas, train_labels, validation_datas, validation_labels = DataCenter_eye(datas,0,3)
+        datas = pd.read_csv('training.csv')
+
+        train_datas, train_labels, validation_datas, validation_labels = DataCenter_eye(datas, 0, 3)
+
         epochs_completed = 0
         index_in_epoch = 0
         num_examples = train_datas.shape[0]
@@ -43,15 +46,20 @@ def train(if_train):
         image_op = tf.image_summary('x-input',tf.reshape(x,[-1,96,96,1]),max_images=BATCH_SIZE)
         image_writer = tf.train.SummaryWriter(FLAGS.summary_dir + '/images')
         best_valid = np.inf
-        #load_model = saver.restore(sess, FLAGS.model_dir+ 'model.ckpteye_center-5806')
+        #load_model = saver.restore(sess, FLAGS.model_dir+ 'model.ckpteye_center-3952')
         if if_train:
+
             #for current_col in range(31):
                 for step in range(FLAGS.max_steps):
-                    batch_x, batch_y, index_in_epoch, epochs_completed,train_datas,train_labels = get_batch(BATCH_SIZE, train_datas, train_labels, index_in_epoch, epochs_completed, num_examples)
+                    batch_x, batch_y, index_in_epoch, epochs_completed,inputs_new,labels_new = get_batch(BATCH_SIZE, index_in_epoch, epochs_completed, num_examples,train_datas,train_labels)
+                    if inputs_new != None:
+                        print ("ok")
+                        train_datas = inputs_new
+                        train_labels = labels_new
                     sess.run([optimizer,merge,image_op], feed_dict={x: batch_x, y_: batch_y,keep_prob: 0.5,phase_train:True})
                     train_writer.add_summary(sess.run(merge,feed_dict={x: batch_x, y_: batch_y, keep_prob: 1.0,phase_train:True}), step)
                     validation_writer.add_summary(sess.run(merge,feed_dict={x: validation_datas, y_: validation_labels, keep_prob: 1.0,phase_train:False}), step)
-                    loss_valid = sess.run(loss_op,feed_dict={x: validation_datas, y_: validation_labels, keep_prob: 1.0,phase_train:False})
+                    loss_valid = sess.run(loss_op,feed_dict={x: validation_datas[0:63], y_: validation_labels[0:63], keep_prob: 1.0,phase_train:False})
                     loss_train = sess.run(loss_op,feed_dict={x: batch_x, y_: batch_y, keep_prob: 1.0,phase_train:False})
 
                     image_writer.add_summary(sess.run(image_op,feed_dict={x:batch_x}))
@@ -61,7 +69,8 @@ def train(if_train):
                        best_valid_step = step
                     elif best_valid_step + EARY_STOP_PATIENCE < step:
                          print ("early stop at {},best loss was {}".format(best_valid_step,best_valid))
-                         saver.save(sess, FLAGS.model_dir + 'model.ckpt' + str(eye_center), global_step=best_valid_step + 1)
+                         saver.save(sess, FLAGS.model_dir + 'model.ckpt' + str(eye_center),global_step= best_valid_step+1)
+
                          break
                 saver.save(sess,FLAGS.model_dir + 'model.ckpt'+str(eye_center),global_step=step+1)
               #  current_col += 1

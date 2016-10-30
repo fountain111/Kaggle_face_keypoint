@@ -10,17 +10,6 @@ global_step = tf.Variable(0)
 learning_rate = tf.train.exponential_decay(1e-3, global_step*BATCH_SIZE, TRARIN_SIZE, 0.95,staircase=True)
 tf.scalar_summary("learning_rate", learning_rate)
 
-def split_data():
-    datas = pd.read_csv('training.csv').dropna()
-    images = np.vstack(datas['Image'].apply(lambda im: np.fromstring(im, sep=' ') / 255.0).values).astype(np.float32)#.reshape(-1, INPUT_SIZE)
-    labels = datas[datas.columns[:-1]].values / 96
-    # split data into train&cross_validation
-    train_images = images[VALIDATION_SIZE:,...]
-    train_labels = labels[VALIDATION_SIZE:]
-    validation_images = images[:VALIDATION_SIZE,...]
-    validation_labels = labels[:VALIDATION_SIZE]
-    return train_images, train_labels, validation_images, validation_labels
-
 
 def load_test_data():
     datas = pd.read_csv('test.csv')
@@ -150,8 +139,8 @@ def loss(model_labels, labels):
 
 
 def train_in_cnn(loss_op):
-    train_step = tf.train.AdamOptimizer(learning_rate,0.98).minimize(loss_op, global_step=global_step)
-    #train_step = tf.train.AdamOptimizer(1e-3).minimize(loss_op)
+    #train_step = tf.train.AdamOptimizer(learning_rate,0.98).minimize(loss_op, global_step=global_step)
+    train_step = tf.train.AdamOptimizer(1e-3).minimize(loss_op)
 
     return train_step
 

@@ -18,7 +18,7 @@ def data_argument():
 
 def DataCenter_eye(input,start,end):
     images = np.vstack(input['Image'].apply(lambda im: np.fromstring(im, sep=' ') / 255.0).values).astype(
-        np.float32).reshape(-1, INPUT_SIZE)    #images, labels = shuffle(images, labels)
+        np.float32)
     labels = input[input.columns[:-1]].values / 96
     images,labels = shuffle(images,labels)
     images = pd.DataFrame(images)
@@ -28,6 +28,7 @@ def DataCenter_eye(input,start,end):
     i_labels = i_labels.as_matrix()
     i_images = i_images.as_matrix()
     return split_trainValidation(i_images, i_labels)
+
 
 def dataArgument_withColumn(datas,start,end):
     images,labels = flip_images(datas)
@@ -45,7 +46,7 @@ def dataArgument_withColumn(datas,start,end):
 
 def flip_images(input):
     images = np.vstack(input['Image'].apply(lambda im: np.fromstring(im, sep=' ') / 255.0).values).astype(
-        np.float32).reshape(-1, INPUT_SIZE)
+        np.float32)
     labels = input[input.columns[:-1]].values / 96
     images_flip = np.copy(images)
     images_flip = images_flip.reshape(-1, 1, 96, 96)
@@ -76,24 +77,30 @@ def shuffle(datas,labels):
     return datas[shuffle_index],labels[shuffle_index]
 
 
-def get_batch(batch_size, train_images, train_labels, index_in_epoch, epochs_completed, train_size):
+def get_batch(batch_size, index_in_epoch, epochs_completed,train_size,inputs,labels):
     start = index_in_epoch
     index_in_epoch += batch_size
+    #those two variables for a new epoch  with shuufle.
+    inputs_new = None
+    labels_new = None
     # when all trainig data have been already used, it is reorder randomly
     if index_in_epoch > train_size:
         # finished epoch
         epochs_completed += 1
+        print ("epoch =", epochs_completed)
         # shuffle the data
-        perm = np.arange(train_size)
-        np.random.shuffle(perm)
-        train_images = train_images[perm]
-        train_labels = train_labels[perm]
+        #perm = np.arange(train_size)
+        #np.random.shuffle(perm)
+        #train_images = train_images[perm]
+        #train_labels = train_labels[perm]
+        inputs_new,labels_new =  shuffle(inputs, labels)
+        inputs,labels = inputs_new,labels_new
         # start next epoch
         start = 0
         index_in_epoch = batch_size
         assert batch_size <= train_size
     end = index_in_epoch
-    return train_images[start:end], train_labels[start:end], index_in_epoch, epochs_completed, train_images, train_labels
+    return inputs[start:end],labels[start:end], index_in_epoch, epochs_completed,inputs_new,labels_new
 
 def next_batch(batch_size, train_images, train_labels, index_in_epoch, epochs_completed, train_size):
     start = index_in_epoch
