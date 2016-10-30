@@ -2,7 +2,7 @@ from Face_kyePoint_cnn import *
 from Global_defintion import *
 FLAGS = tf.app.flags.FLAGS
 
-tf.app.flags.DEFINE_integer('max_steps', 30000,
+tf.app.flags.DEFINE_integer('max_steps', 50000,
                             """Number of batches to run.""")
 tf.app.flags.DEFINE_string('summary_dir', '/tmp/faceKeypoint',
                            """Directory where to write event logs """
@@ -46,7 +46,7 @@ def train(if_train):
         image_op = tf.image_summary('x-input',tf.reshape(x,[-1,96,96,1]),max_images=BATCH_SIZE)
         image_writer = tf.train.SummaryWriter(FLAGS.summary_dir + '/images')
         best_valid = np.inf
-        #load_model = saver.restore(sess, FLAGS.model_dir+ 'model.ckpteye_center-3952')
+        load_model = saver.restore(sess, FLAGS.model_dir+ 'model.ckpteye_center-30000')
         if if_train:
 
             #for current_col in range(31):
