@@ -1,0 +1,2395 @@
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : ldcspst
+Source Server Version : 50624
+Source Host           : 10.0.144.189:3307
+Source Database       : ldcsdb
+
+Target Server Type    : MYSQL
+Target Server Version : 50624
+File Encoding         : 65001
+
+Date: 2016-10-25 09:47:09
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for s_dictionary
+-- ----------------------------
+DROP TABLE IF EXISTS `s_dictionary`;
+CREATE TABLE `s_dictionary` (
+`id`  bigint(20) NOT NULL AUTO_INCREMENT ,
+`type`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`val`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`text`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`seq`  int(11) NULL DEFAULT NULL ,
+`active`  char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`description`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+PRIMARY KEY (`id`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=28
+
+;
+
+-- ----------------------------
+-- Table structure for s_menu
+-- ----------------------------
+DROP TABLE IF EXISTS `s_menu`;
+CREATE TABLE `s_menu` (
+`id`  bigint(20) NOT NULL AUTO_INCREMENT ,
+`dtype`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`name`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`lvl`  int(11) NULL DEFAULT NULL ,
+`leaf`  char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`parent_id`  bigint(20) NULL DEFAULT NULL ,
+`module_id`  bigint(20) NULL DEFAULT NULL ,
+`target`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`menuType`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`script`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`icon`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`seq`  int(11) NULL DEFAULT NULL ,
+PRIMARY KEY (`id`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=230
+
+;
+
+-- ----------------------------
+-- Table structure for s_organization
+-- ----------------------------
+DROP TABLE IF EXISTS `s_organization`;
+CREATE TABLE `s_organization` (
+`id`  bigint(20) NOT NULL AUTO_INCREMENT ,
+`name`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`lvl`  int(11) NULL DEFAULT NULL ,
+`seq`  int(11) NULL DEFAULT NULL ,
+`parent_id`  bigint(20) NULL DEFAULT NULL ,
+`leaf`  char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`usable`  char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+PRIMARY KEY (`id`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=2
+
+;
+
+-- ----------------------------
+-- Table structure for s_resource
+-- ----------------------------
+DROP TABLE IF EXISTS `s_resource`;
+CREATE TABLE `s_resource` (
+`id`  bigint(20) NOT NULL AUTO_INCREMENT ,
+`dtype`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`name`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`pattern`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`description`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`identify`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`path`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`seq`  int(11) NULL DEFAULT NULL ,
+`lvl`  int(11) NULL DEFAULT NULL ,
+`parent_id`  bigint(20) NULL DEFAULT NULL ,
+`leaf`  bit(1) NULL DEFAULT NULL ,
+`returnExample`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`remark`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`format`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+PRIMARY KEY (`id`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=181
+
+;
+
+-- ----------------------------
+-- Table structure for s_role
+-- ----------------------------
+DROP TABLE IF EXISTS `s_role`;
+CREATE TABLE `s_role` (
+`id`  bigint(20) NOT NULL AUTO_INCREMENT ,
+`dtype`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`name`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`create_date`  datetime NULL DEFAULT NULL ,
+`description`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+PRIMARY KEY (`id`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=1468
+
+;
+
+-- ----------------------------
+-- Table structure for s_role_resource_rel
+-- ----------------------------
+DROP TABLE IF EXISTS `s_role_resource_rel`;
+CREATE TABLE `s_role_resource_rel` (
+`resource_id`  bigint(20) NOT NULL ,
+`role_id`  bigint(20) NOT NULL ,
+PRIMARY KEY (`role_id`, `resource_id`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for s_user
+-- ----------------------------
+DROP TABLE IF EXISTS `s_user`;
+CREATE TABLE `s_user` (
+`id`  bigint(20) NOT NULL AUTO_INCREMENT ,
+`username`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`password`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`accountNonExpired`  char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`accountNonLocked`  char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`credentialsNonExpired`  char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`enabled`  char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`dtype`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`name`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`create_date`  datetime NULL DEFAULT NULL ,
+`update_time`  datetime NULL DEFAULT NULL ,
+`login_count`  bigint(20) NULL DEFAULT NULL ,
+`org_id`  bigint(20) NULL DEFAULT NULL ,
+PRIMARY KEY (`id`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=1234
+
+;
+
+-- ----------------------------
+-- Table structure for s_user_role_rel
+-- ----------------------------
+DROP TABLE IF EXISTS `s_user_role_rel`;
+CREATE TABLE `s_user_role_rel` (
+`user_id`  bigint(20) NOT NULL ,
+`role_id`  bigint(20) NOT NULL ,
+PRIMARY KEY (`user_id`, `role_id`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_eln_g_user
+-- ----------------------------
+DROP TABLE IF EXISTS `t_eln_g_user`;
+CREATE TABLE `t_eln_g_user` (
+`guid`  varchar(75) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`username`  varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`fullname`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`emailaddress`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`active`  int(11) NULL DEFAULT 1 ,
+`vaultprofile`  blob NULL ,
+`systemprofile`  blob NULL ,
+`user_id`  bigint(20) NULL DEFAULT NULL ,
+`alias`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+INDEX `PK_GUID` (`guid`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_eln_p_chengliangsj_obj
+-- ----------------------------
+DROP TABLE IF EXISTS `t_eln_p_chengliangsj_obj`;
+CREATE TABLE `t_eln_p_chengliangsj_obj` (
+`status`  int(11) NULL DEFAULT NULL ,
+`id`  bigint(20) NOT NULL ,
+`concheck`  bigint(20) NULL DEFAULT NULL ,
+`linkid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`createdby`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`creationdate`  datetime NULL DEFAULT NULL ,
+`lastmodifiedby`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`lastmodificationdate`  datetime NULL DEFAULT NULL ,
+`ownerid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`vaultid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`containerid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`parentid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`classname`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`parentdataid`  bigint(20) NULL DEFAULT NULL ,
+`kongpinz_value`  double NULL DEFAULT NULL ,
+`kongpinz_unit`  bigint(20) NULL DEFAULT NULL ,
+`yangpinz_value`  double NULL DEFAULT NULL ,
+`yangpinz_unit`  bigint(20) NULL DEFAULT NULL ,
+`hengzhong_value`  double NULL DEFAULT NULL ,
+`hengzhong_unit`  bigint(20) NULL DEFAULT NULL ,
+`ganzao2h_value`  double NULL DEFAULT NULL ,
+`ganzao2h_unit`  bigint(20) NULL DEFAULT NULL ,
+`zhengfamhz_value`  double NULL DEFAULT NULL ,
+`zhengfamhz_unit`  bigint(20) NULL DEFAULT NULL ,
+`yangpin_value`  double NULL DEFAULT NULL ,
+`yangpin_unit`  bigint(20) NULL DEFAULT NULL ,
+`chengzhong_value`  double NULL DEFAULT NULL ,
+`chengzhong_unit`  bigint(20) NULL DEFAULT NULL ,
+`kongganghz_value`  double NULL DEFAULT NULL ,
+`kongganghz_unit`  bigint(20) NULL DEFAULT NULL ,
+`zonghuifhz_value`  double NULL DEFAULT NULL ,
+`zonghuifhz_unit`  bigint(20) NULL DEFAULT NULL ,
+`kongchenglphz_value`  double NULL DEFAULT NULL ,
+`kongchenglphz_unit`  bigint(20) NULL DEFAULT NULL ,
+`zaiganz1h_value`  double NULL DEFAULT NULL ,
+`zaiganz1h_unit`  bigint(20) NULL DEFAULT NULL ,
+`fangzhi24h_value`  double NULL DEFAULT NULL ,
+`fangzhi24h_unit`  bigint(20) NULL DEFAULT NULL ,
+`kongpinyangpin_value`  double NULL DEFAULT NULL ,
+`kongpinyangpin_unit`  bigint(20) NULL DEFAULT NULL ,
+`kongpinshui_value`  double NULL DEFAULT NULL ,
+`kongpinshui_unit`  bigint(20) NULL DEFAULT NULL ,
+`chengliangphz_value`  double NULL DEFAULT NULL ,
+`chengliangphz_unit`  bigint(20) NULL DEFAULT NULL ,
+`chengyangl_value`  double NULL DEFAULT NULL ,
+`chengyangl_unit`  bigint(20) NULL DEFAULT NULL ,
+`yangpinhz_value`  double NULL DEFAULT NULL ,
+`yangpinhz_unit`  bigint(20) NULL DEFAULT NULL ,
+`kongshanbhz_value`  double NULL DEFAULT NULL ,
+`kongshanbhz_unit`  bigint(20) NULL DEFAULT NULL ,
+`quyangl_value`  double NULL DEFAULT NULL ,
+`quyangl_unit`  bigint(20) NULL DEFAULT NULL ,
+`ganzaohzz_value`  double NULL DEFAULT NULL ,
+`ganzaohzz_unit`  bigint(20) NULL DEFAULT NULL ,
+`pianzhong_value`  double NULL DEFAULT NULL ,
+`pianzhong_unit`  bigint(20) NULL DEFAULT NULL ,
+`chouyangzz_value`  double NULL DEFAULT NULL ,
+`chouyangzz_unit`  bigint(20) NULL DEFAULT NULL ,
+`chouyangpz_value`  double NULL DEFAULT NULL ,
+`chouyangpz_unit`  bigint(20) NULL DEFAULT NULL ,
+`ershipzz_value`  double NULL DEFAULT NULL ,
+`ershipzz_unit`  bigint(20) NULL DEFAULT NULL ,
+`chengliangcs_value`  double NULL DEFAULT NULL ,
+`chengliangcs_unit`  bigint(20) NULL DEFAULT NULL ,
+`xuhao`  bigint(20) NULL DEFAULT NULL ,
+`beizhu`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`xiangmu`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`mingcheng`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`xiangmubh`  bigint(20) NULL DEFAULT NULL ,
+`jisuan`  int(11) NULL DEFAULT NULL ,
+`jilu`  int(11) NULL DEFAULT NULL ,
+`jianpinbh`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`chengliangcishu`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`xiangmubiaohao`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`wupianzhong_value`  double NULL DEFAULT NULL ,
+`wupianzhong_unit`  bigint(20) NULL DEFAULT NULL ,
+`shipianzhong_value`  double NULL DEFAULT NULL ,
+`shipianzhong_unit`  bigint(20) NULL DEFAULT NULL ,
+`shiwupz_value`  double NULL DEFAULT NULL ,
+`shiwupz_unit`  bigint(20) NULL DEFAULT NULL ,
+`ershipz_value`  double NULL DEFAULT NULL ,
+`ershipz_unit`  bigint(20) NULL DEFAULT NULL ,
+`chulihz_value`  double NULL DEFAULT NULL ,
+`chulihz_unit`  bigint(20) NULL DEFAULT NULL ,
+`m1_value`  double NULL DEFAULT NULL ,
+`m1_unit`  bigint(20) NULL DEFAULT NULL ,
+`m2_value`  double NULL DEFAULT NULL ,
+`m2_unit`  bigint(20) NULL DEFAULT NULL ,
+`m3_value`  double NULL DEFAULT NULL ,
+`m3_unit`  bigint(20) NULL DEFAULT NULL ,
+`m4_value`  double NULL DEFAULT NULL ,
+`m4_unit`  bigint(20) NULL DEFAULT NULL ,
+`m5_value`  double NULL DEFAULT NULL ,
+`m5_unit`  bigint(20) NULL DEFAULT NULL ,
+`m6_value`  double NULL DEFAULT NULL ,
+`m6_unit`  bigint(20) NULL DEFAULT NULL ,
+`m7_value`  double NULL DEFAULT NULL ,
+`m7_unit`  bigint(20) NULL DEFAULT NULL ,
+`m8_value`  double NULL DEFAULT NULL ,
+`m8_unit`  bigint(20) NULL DEFAULT NULL ,
+`m9_value`  double NULL DEFAULT NULL ,
+`m9_unit`  bigint(20) NULL DEFAULT NULL ,
+`shipianz_value`  double NULL DEFAULT NULL ,
+`shipianz_unit`  bigint(20) NULL DEFAULT NULL ,
+`w1_value`  double NULL DEFAULT NULL ,
+`w1_unit`  bigint(20) NULL DEFAULT NULL ,
+`w2_value`  double NULL DEFAULT NULL ,
+`w2_unit`  bigint(20) NULL DEFAULT NULL ,
+`w3_value`  double NULL DEFAULT NULL ,
+`w3_unit`  bigint(20) NULL DEFAULT NULL ,
+`w4_value`  double NULL DEFAULT NULL ,
+`w4_unit`  bigint(20) NULL DEFAULT NULL ,
+`w5_value`  double NULL DEFAULT NULL ,
+`w5_unit`  bigint(20) NULL DEFAULT NULL ,
+`w6_value`  double NULL DEFAULT NULL ,
+`w6_unit`  bigint(20) NULL DEFAULT NULL ,
+`ling10pz_value`  double NULL DEFAULT NULL ,
+`ling10pz_unit`  bigint(20) NULL DEFAULT NULL ,
+`m11_value`  double NULL DEFAULT NULL ,
+`m11_unit`  bigint(20) NULL DEFAULT NULL ,
+`m22_value`  double NULL DEFAULT NULL ,
+`m22_unit`  bigint(20) NULL DEFAULT NULL ,
+`m33_value`  double NULL DEFAULT NULL ,
+`m33_unit`  bigint(20) NULL DEFAULT NULL ,
+`m55_value`  double NULL DEFAULT NULL ,
+`m55_unit`  bigint(20) NULL DEFAULT NULL ,
+`kongpinghzw1_value`  double NULL DEFAULT NULL ,
+`kongpinghzw1_unit`  bigint(20) NULL DEFAULT NULL ,
+`isregister`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`m66_value`  double NULL DEFAULT NULL ,
+`m66_unit`  bigint(20) NULL DEFAULT NULL
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_eln_p_duizhaocl_obj
+-- ----------------------------
+DROP TABLE IF EXISTS `t_eln_p_duizhaocl_obj`;
+CREATE TABLE `t_eln_p_duizhaocl_obj` (
+`status`  int(11) NULL DEFAULT NULL ,
+`id`  bigint(20) NULL DEFAULT NULL ,
+`concheck`  bigint(20) NULL DEFAULT NULL ,
+`linkid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`createdby`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`creationdate`  datetime NULL DEFAULT NULL ,
+`lastmodifiedby`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`lastmodificationdate`  datetime NULL DEFAULT NULL ,
+`ownerid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`vaultid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`containerid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`parentid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`classname`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`parentdataid`  bigint(20) NULL DEFAULT NULL ,
+`mincheng`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`chengliang_value`  double NULL DEFAULT NULL ,
+`chengliang_unit`  bigint(20) NULL DEFAULT NULL ,
+`leibie`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`xiangmu`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`chenliangcs`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`xiangmubh`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`bieming`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`pihao`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`tiaoxingm`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`quyangl`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`quyangliang_value`  double NULL DEFAULT NULL ,
+`quyangliang_unit`  bigint(20) NULL DEFAULT NULL
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_eln_p_gongshizb_obj
+-- ----------------------------
+DROP TABLE IF EXISTS `t_eln_p_gongshizb_obj`;
+CREATE TABLE `t_eln_p_gongshizb_obj` (
+`status`  int(11) NULL DEFAULT NULL ,
+`id`  bigint(20) NOT NULL DEFAULT 0 ,
+`concheck`  bigint(20) NULL DEFAULT NULL ,
+`linkid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`createdby`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`creationdate`  datetime NULL DEFAULT NULL ,
+`lastmodifiedby`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`lastmodificationdate`  datetime NULL DEFAULT NULL ,
+`ownerid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`vaultid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`containerid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`parentid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`classname`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`parentdataid`  bigint(20) NULL DEFAULT NULL ,
+`xishibs`  double NULL DEFAULT NULL ,
+`chengliangcopy1_1_value`  double NULL DEFAULT NULL ,
+`chengliangcopy1_1_unit`  bigint(20) NULL DEFAULT NULL ,
+`jianpinbhcopy2_2`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`dingrongtj`  bigint(20) NULL DEFAULT NULL ,
+`xiangmucopy4_4`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`jianpinmc`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`chenliangcs`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`xiangmubh`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`quyangliang_value`  double NULL DEFAULT NULL ,
+`quyangliang_unit`  bigint(20) NULL DEFAULT NULL ,
+PRIMARY KEY (`id`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_eln_p_jianpinxx_obj
+-- ----------------------------
+DROP TABLE IF EXISTS `t_eln_p_jianpinxx_obj`;
+CREATE TABLE `t_eln_p_jianpinxx_obj` (
+`status`  int(11) NULL DEFAULT NULL ,
+`id`  bigint(20) NOT NULL ,
+`concheck`  bigint(20) NULL DEFAULT NULL ,
+`linkid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`createdby`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`creationdate`  timestamp NULL DEFAULT NULL ,
+`lastmodifiedby`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`lastmodificationdate`  timestamp NULL DEFAULT NULL ,
+`ownerid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`vaultid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`containerid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`parentid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`classname`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`parentdataid`  bigint(20) NULL DEFAULT NULL ,
+`jianpinbh`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`jianpinmc`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`pihao`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`jianpinsl`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`jianyanxm`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`guige`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`jixing`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`shengchandw`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`baozhuang`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`gongyangdw`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`youxiaoq`  timestamp NULL DEFAULT NULL ,
+`jianyanmd`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`shoujianrq`  timestamp NULL DEFAULT NULL ,
+`jianyanbz`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`jobleixing`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`zhujiankeshi`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`zhuangtai`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`zhujianks`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`dapih`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`guanlianjianpin`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`shoujianrq2`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`youxiaorq`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`bianhao`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+PRIMARY KEY (`id`),
+INDEX `PK_DOCID` (`containerid`) USING BTREE ,
+INDEX `PK_JPBH` (`jianpinbh`) USING BTREE ,
+INDEX `PK_JPMC` (`jianpinmc`) USING BTREE ,
+INDEX `PK_JPPH` (`pihao`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_eln_p_jianxiangxx_obj
+-- ----------------------------
+DROP TABLE IF EXISTS `t_eln_p_jianxiangxx_obj`;
+CREATE TABLE `t_eln_p_jianxiangxx_obj` (
+`status`  int(11) NULL DEFAULT NULL ,
+`id`  bigint(20) NOT NULL ,
+`concheck`  bigint(20) NULL DEFAULT NULL ,
+`linkid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`createdby`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`creationdate`  timestamp NULL DEFAULT NULL ,
+`lastmodifiedby`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`lastmodificationdate`  timestamp NULL DEFAULT NULL ,
+`ownerid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`vaultid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`containerid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`parentid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`classname`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`parentdataid`  bigint(20) NULL DEFAULT NULL ,
+`jianpinmc`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`jianyanxx`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`jianyandx`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`jiancerq`  timestamp NULL DEFAULT NULL ,
+`jiancejg`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`biazhungd`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`beizhu`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`xuhao`  bigint(20) NULL DEFAULT NULL ,
+`jianxiangbh`  bigint(20) NULL DEFAULT NULL ,
+`fujiasf`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`beilv`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`jianyanjielun`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`zhuangtai`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`biaoshi`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`duizhaopclcs`  bigint(20) NULL DEFAULT NULL ,
+`gongshipclcs`  bigint(20) NULL DEFAULT NULL ,
+`jianyanbz`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`pandingyj`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`sop`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`ceshiff`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`propertysetbase`  bigint(20) NULL DEFAULT NULL ,
+`test_id`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`jianpinsn`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`baogaodz`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`jianchux`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`chuangjiansj`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`tixingsj`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`jianchuxdw`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`baogaojg`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+PRIMARY KEY (`id`),
+INDEX `PK_JIANPINSN` (`jianpinsn`) USING BTREE ,
+INDEX `PK_CONTAINERID` (`containerid`) USING BTREE ,
+INDEX `PK_TEST_ID` (`test_id`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_eln_p_shiyancl_obj
+-- ----------------------------
+DROP TABLE IF EXISTS `t_eln_p_shiyancl_obj`;
+CREATE TABLE `t_eln_p_shiyancl_obj` (
+`status`  int(11) NULL DEFAULT NULL ,
+`id`  bigint(20) NOT NULL DEFAULT 0 ,
+`concheck`  bigint(20) NULL DEFAULT NULL ,
+`linkid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`createdby`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`creationdate`  timestamp NULL DEFAULT NULL ,
+`lastmodifiedby`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`lastmodificationdate`  timestamp NULL DEFAULT NULL ,
+`ownerid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`vaultid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`containerid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`parentid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`classname`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`parentdataid`  bigint(20) NULL DEFAULT NULL ,
+`shijimc`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`leibei`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`yongtu`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`nongdu`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`kaipingrq`  timestamp NULL DEFAULT NULL ,
+`guoqirq`  timestamp NULL DEFAULT NULL ,
+`pihao`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`guige`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`peizhijl`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`shengchancj`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`beizhu`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`leibie`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`xiangmu`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`tiaoxingm`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`midu`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`ganzaosf`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`hanliang`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`chengliang_value`  double NULL DEFAULT NULL ,
+`chengliang_unit`  bigint(20) NULL DEFAULT NULL ,
+`fzhi`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+PRIMARY KEY (`id`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_eln_p_yiqi_obj
+-- ----------------------------
+DROP TABLE IF EXISTS `t_eln_p_yiqi_obj`;
+CREATE TABLE `t_eln_p_yiqi_obj` (
+`status`  int(11) NULL DEFAULT NULL ,
+`id`  bigint(20) NOT NULL DEFAULT 0 ,
+`concheck`  bigint(20) NULL DEFAULT NULL ,
+`linkid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`createdby`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`creationdate`  timestamp NULL DEFAULT NULL ,
+`lastmodifiedby`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`lastmodificationdate`  timestamp NULL DEFAULT NULL ,
+`ownerid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`vaultid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`containerid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`parentid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`classname`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`parentdataid`  bigint(20) NULL DEFAULT NULL ,
+`yiqimc`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`yiqixh`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`yiqilb`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`shengchancj`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`yiqizt`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`jibie`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`keshi`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`yiqibh`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`xiangmu`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`youguanwz`  int(11) NULL DEFAULT NULL ,
+`hanliangcd`  int(11) NULL DEFAULT NULL ,
+`rongchudu`  int(11) NULL DEFAULT NULL ,
+`hanliangjyd`  int(11) NULL DEFAULT NULL ,
+`beizhu`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+PRIMARY KEY (`id`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_eln_vaultobject
+-- ----------------------------
+DROP TABLE IF EXISTS `t_eln_vaultobject`;
+CREATE TABLE `t_eln_vaultobject` (
+`id`  bigint(20) NOT NULL ,
+`concheck`  bigint(20) NULL DEFAULT NULL ,
+`linkid`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`status`  bigint(20) NULL DEFAULT 0 ,
+`creationdate`  timestamp NULL DEFAULT NULL ,
+`createdby`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`lastmodificationdate`  timestamp NULL DEFAULT NULL ,
+`lastmodifiedby`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`alias`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`associationtarget`  int(11) NULL DEFAULT NULL ,
+`checkoutusername`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`checkoutstate`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`class`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`contentidentifier`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`contentsize`  bigint(20) NULL DEFAULT NULL ,
+`contributor`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`coverage`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`creator`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`clientcreationdate`  timestamp NULL DEFAULT NULL ,
+`description`  varchar(4000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`documentid`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`format`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`language`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`vaultobjecttype`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`permissions`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`implicitpermissions`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`publisher`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`relation`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`vaultpath`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`vaultcontainerpath`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`rights`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`sourcerepositoryid`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`source`  varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`subject`  varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`title`  varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`type`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`vaultid`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`version`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`versioncomment`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`versioncreationdate`  timestamp NULL DEFAULT NULL ,
+`versioncreator`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`versionidentifier`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`workflowname`  varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`workflowstage`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`locked`  int(11) NULL DEFAULT NULL ,
+`deleted`  int(11) NULL DEFAULT NULL ,
+`hidden`  int(11) NULL DEFAULT NULL ,
+`system`  int(11) NULL DEFAULT NULL ,
+`archive`  int(11) NULL DEFAULT NULL ,
+`synchronize`  int(11) NULL DEFAULT NULL ,
+`autoname`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+PRIMARY KEY (`id`),
+INDEX `PK_CREATOR` (`creator`) USING BTREE ,
+INDEX `PK_TYPE` (`type`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_instrument
+-- ----------------------------
+DROP TABLE IF EXISTS `t_instrument`;
+CREATE TABLE `t_instrument` (
+`id`  bigint(20) NOT NULL AUTO_INCREMENT ,
+`instrument_type_id`  bigint(20) NULL DEFAULT NULL COMMENT '仪器类型' ,
+`instrument_name`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '仪器名称' ,
+`instrument_no`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资产编号' ,
+`technical_office`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '科室' ,
+`productor`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '生产厂家' ,
+`version`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '型号' ,
+`create_date`  timestamp NULL DEFAULT NULL COMMENT '创建时间' ,
+`update_date`  timestamp NULL DEFAULT NULL COMMENT '更新时间' ,
+`status`  char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1' COMMENT '状态' ,
+`print_type`  int(1) NULL DEFAULT 1 COMMENT '打印类型 1--合并打印 2--连续打印 3--网络版' ,
+PRIMARY KEY (`id`),
+INDEX `PK_INSTR_TYPE_ID` (`instrument_type_id`, `id`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+COMMENT='仪器表'
+AUTO_INCREMENT=91
+
+;
+
+-- ----------------------------
+-- Table structure for t_instrument_field
+-- ----------------------------
+DROP TABLE IF EXISTS `t_instrument_field`;
+CREATE TABLE `t_instrument_field` (
+`id`  bigint(20) NOT NULL AUTO_INCREMENT ,
+`instrument_type_id`  bigint(20) NULL DEFAULT NULL COMMENT '仪器类型' ,
+`field_type`  varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字段类型:1-仪器参数,2－样品，3－标准样品，4－平行样，' ,
+`field_name`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字段名称' ,
+`field_seq`  int(11) NULL DEFAULT NULL COMMENT '字段序号' ,
+`is_sample_name`  int(2) NULL DEFAULT 0 COMMENT '是否检品编码' ,
+`result_seq`  int(11) NULL DEFAULT NULL ,
+`status`  int(2) NULL DEFAULT NULL COMMENT '状态：0－未审批，1－审批' ,
+`group_area_flg`  int(2) NULL DEFAULT 0 COMMENT '0--否 1--是' ,
+`sample_type_flg`  int(2) NULL DEFAULT 0 COMMENT '是否是样品类型字段 1--是 0---否' ,
+`test_id_flg`  int(2) NULL DEFAULT 0 COMMENT '是否是test_id' ,
+`instr_no_flg`  int(2) NULL DEFAULT 0 COMMENT '是否是仪器编号，一般网络版需要' ,
+`px_flg`  int(2) NULL DEFAULT 0 COMMENT '是否是平行样次数 0--不是 1--是' ,
+`uuid_flg`  int(2) NULL DEFAULT 0 COMMENT '是否是唯一标识(网络版）' ,
+`createTime_flg`  int(2) NULL DEFAULT 0 COMMENT '是否是报告创建时间（网络版）' ,
+`documentId_flg`  int(2) NULL DEFAULT 0 COMMENT '是否是document_id 1--是 0不是' ,
+PRIMARY KEY (`id`),
+INDEX `PK_INSTR_TYPE_ID` (`instrument_type_id`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+COMMENT='仪器数据字段表'
+AUTO_INCREMENT=240
+
+;
+
+-- ----------------------------
+-- Table structure for t_instrument_type
+-- ----------------------------
+DROP TABLE IF EXISTS `t_instrument_type`;
+CREATE TABLE `t_instrument_type` (
+`id`  bigint(20) NOT NULL AUTO_INCREMENT ,
+`instr_type_name`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`instr_type_no`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '编号' ,
+`create_date`  timestamp NULL DEFAULT NULL COMMENT '创建时间' ,
+`update_date`  timestamp NULL DEFAULT NULL COMMENT '更新时间' ,
+PRIMARY KEY (`id`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+COMMENT='仪器信息'
+AUTO_INCREMENT=50
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_c_checker
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_c_checker`;
+CREATE TABLE `t_lims_c_checker` (
+`c_test_location`  varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '检项人编号' ,
+`checker`  varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`checker_type`  int(11) NULL DEFAULT NULL COMMENT '检项人类型(1为主检人2为协检人)' ,
+`create_date`  timestamp NULL DEFAULT NULL ,
+`sample_jianpinbh`  varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '检品编号' ,
+`id`  varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' ,
+PRIMARY KEY (`id`),
+INDEX `SAMPLE_JIANPINBH_INDEX` (`sample_jianpinbh`) USING BTREE ,
+INDEX `PK_CHECKER` (`checker`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+COMMENT='检品与检测人'
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_c_customer
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_c_customer`;
+CREATE TABLE `t_lims_c_customer` (
+`id`  varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`code`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`name`  varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`password`  varchar(160) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`post_code`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`telephone`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`fax`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`email`  varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`address`  varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`active`  int(11) NULL DEFAULT NULL ,
+`create_date`  timestamp NULL DEFAULT NULL ,
+`department`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`mobile`  varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`contact_person`  varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`upload_file`  varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`upload_file_path`  varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`check_type`  varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`remark`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`sy_type`  varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`dw_type`  varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`sid`  int(11) NULL DEFAULT NULL
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_c_location_status
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_c_location_status`;
+CREATE TABLE `t_lims_c_location_status` (
+`c_test_location`  varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`sample_jianpinbh`  varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`jp_status`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '检品科室状态' ,
+`status_by`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '状态变更人' ,
+`status_date`  timestamp NULL DEFAULT NULL COMMENT '状态变更时间' ,
+`check_person`  varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '校对人' ,
+`check_history_person`  varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '历史校对人' ,
+`tc_express_price`  decimal(14,6) NULL DEFAULT NULL COMMENT '加急费用' ,
+`tc_other_price`  decimal(14,6) NULL DEFAULT NULL COMMENT '其他费用' ,
+`tc_test_report`  varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '科室检验结论' ,
+`current_status_notes`  varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '当前状态备注信息' ,
+`child_status`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '检品科室子状态,目前主要是撤检用' ,
+`child_c_status_notes`  varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '当前子状态备注信息' ,
+`child_status_by`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '子状态操作人' ,
+`child_status_date`  timestamp NULL DEFAULT NULL COMMENT '子状态操作时间' ,
+`child_status_group`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '子状态发起的科室编号' ,
+`jp_status_flag`  int(11) NULL DEFAULT NULL COMMENT '0是正常,1是审签拒绝' ,
+`tc_pandingjl`  varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '判定结论' ,
+`sid`  varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '主键' ,
+`cycle_base_date`  timestamp NULL DEFAULT NULL COMMENT '计算科室周期的基准日期' ,
+PRIMARY KEY (`sid`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+COMMENT='检品科室状态'
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_c_sample_extend
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_c_sample_extend`;
+CREATE TABLE `t_lims_c_sample_extend` (
+`id`  varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' ,
+`sample_jobbianhao`  varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`wtdw_name`  varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`wtdw_post_code`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`wtdw_tel`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`wtdw_fax`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`wtdw_person`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`wtdw_date`  timestamp NULL DEFAULT NULL ,
+`wtdw_address`  varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`sp_files`  varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`cjjb_test_number`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '受理编号' ,
+`cjjb_test_price`  decimal(18,6) NULL DEFAULT NULL COMMENT '检验费用' ,
+`cjjb_test_duedate`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '检验期限' ,
+`cjjb_date`  timestamp NULL DEFAULT NULL COMMENT '受理日期' ,
+`cjjb_test_savequantity`  int(11) NULL DEFAULT NULL COMMENT '留样数量' ,
+`cjjb_person`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '经办人' ,
+`sp_standard`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '确定标准' ,
+`cjjb_advance_payment`  decimal(18,6) NULL DEFAULT NULL COMMENT '检验预收费' ,
+`cjjb_ap_flag`  int(11) NULL DEFAULT NULL COMMENT '预收费标记,0 财务未确认,1已确认' ,
+`tc_charged`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表示是否预收费或最终收费   0，1，2' ,
+PRIMARY KEY (`id`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+COMMENT='检品扩展'
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_c_test_location
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_c_test_location`;
+CREATE TABLE `t_lims_c_test_location` (
+`id`  varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`sample_jobbianhao`  varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'JOB编号' ,
+`group_id`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '科室编号' ,
+`is_main_check`  int(11) NULL DEFAULT NULL COMMENT '是否主检' ,
+`quantity`  int(11) NULL DEFAULT NULL COMMENT '数量' ,
+`create_date`  timestamp NULL DEFAULT NULL ,
+INDEX `SAMPLE_jOB_INDEX` (`sample_jobbianhao`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+COMMENT='--JOB与科室--lims系统'
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_group
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_group`;
+CREATE TABLE `t_lims_group` (
+`id`  int(11) NOT NULL AUTO_INCREMENT ,
+`IDENTITY`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`DESCRIPTION`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`MODIFIABLE`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`MODIFIED_ON
+MODIFIED_ON
+MODIFIED_ON`  datetime NULL DEFAULT NULL ,
+`MODIFIED_BY`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`REMOVEFLAG`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`OPERATOR_ID`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`GROUP_ID
+GROUP_ID`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`PARENT_GROUP
+PARENT_GROUP`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`NAME`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+PRIMARY KEY (`id`),
+INDEX `GROUP_PK` (`IDENTITY`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=25
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_group_header
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_group_header`;
+CREATE TABLE `t_lims_group_header` (
+`IDENTITY`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`DESCRIPTION`  varchar(234) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`MODIFIABLE`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`MODIFIED_ON`  datetime NULL DEFAULT NULL ,
+`MODIFIED_BY`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`REMOVEFLAG`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`OPERATOR_ID`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`PARENT_GROUP`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`GROUP_ID`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`NAME`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+PRIMARY KEY (`IDENTITY`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_instrument
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_instrument`;
+CREATE TABLE `t_lims_instrument` (
+`identity`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '          ' ,
+`group_id`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '          ' ,
+`description`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`modifiable`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`modified_on`  timestamp NULL DEFAULT NULL ,
+`modified_by`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`removeflag`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`manufacturer`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`insttype_id`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`instrument_template`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`serial_no`  varchar(78) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`instructions`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`location_id`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`sop_reference`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`available`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'T' ,
+`retired`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`operator_id`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`date_installed`  date NULL DEFAULT NULL ,
+`calibration_plan`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`calib_sample_template`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`requires_calibration`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`last_calib_date`  timestamp NULL DEFAULT NULL ,
+`next_calib_date`  timestamp NULL DEFAULT NULL ,
+`calib_contractor`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`calib_lead_time`  varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '   0 00:00:00.00' ,
+`calibration_sample`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`requires_servicing`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`last_service_date`  timestamp NULL DEFAULT NULL ,
+`next_service_date`  timestamp NULL DEFAULT NULL ,
+`service_contractor`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`service_lead_time`  varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '   0 00:00:00.00' ,
+`service_intv`  varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '   0 00:00:00.00' ,
+`service_date`  timestamp NULL DEFAULT NULL ,
+`service_tqe`  int(11) NULL DEFAULT 0 ,
+`workfile`  varchar(234) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`server`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`approval_reqd`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`channel`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`status`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'U' ,
+`calib_date`  timestamp NULL DEFAULT NULL ,
+`calib_intv`  varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '   0 00:00:00.00' ,
+`calib_tqe`  int(11) NULL DEFAULT 0 ,
+`workstation_name`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`comm_port`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`comm_baud`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '9600' ,
+`comm_parity`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'N' ,
+`comm_databits`  int(11) NULL DEFAULT 8 ,
+`comm_stopbits`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1' ,
+`comm_send_string`  varchar(234) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`comm_timeout`  int(11) NULL DEFAULT 5 ,
+`comm_preamble`  varchar(234) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`comm_postamble`  varchar(234) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`name`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_fangjian`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_jiage`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_xulieh`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_shengchans`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_beizhu`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_jibie`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`qjhc_requires`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`qjhc_last_date`  timestamp NULL DEFAULT NULL ,
+`qjhc_next_date`  timestamp NULL DEFAULT NULL ,
+`qjhc_lead_time`  varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '   0 00:00:00.00' ,
+`qjhc_intv`  varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '   0 00:00:00.00' ,
+`qjhc_date`  timestamp NULL DEFAULT NULL ,
+`qjhc_tqe`  int(11) NULL DEFAULT 0 ,
+`c_baoguanr`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_tianpingzjr`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_tianpingzjsj`  timestamp NULL DEFAULT NULL ,
+PRIMARY KEY (`identity`, `group_id`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+COMMENT='仪器表'
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_instrument_training
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_instrument_training`;
+CREATE TABLE `t_lims_instrument_training` (
+`instrument`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '          ' ,
+`training_course`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '                    ' ,
+`minimum_competence`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '3' ,
+PRIMARY KEY (`instrument`, `training_course`),
+UNIQUE INDEX `INSTRUMENT_TRAINING_I` (`instrument`, `training_course`) USING BTREE ,
+INDEX `INSTRUMENT_TC_INDEX` (`training_course`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_personnel
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_personnel`;
+CREATE TABLE `t_lims_personnel` (
+`identity`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '          ' ,
+`group_id`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`default_group`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`description`  varchar(234) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`authority`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '4         ' ,
+`location_id`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`cost_code`  varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '               ' ,
+`modified_on`  timestamp NULL DEFAULT NULL ,
+`modified_by`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`modifiable`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`removeflag`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`language`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`name`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`email`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_keshi`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_gonghao`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_xingbie`  varchar(4) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '    ' ,
+`c_chushengny`  timestamp NULL DEFAULT NULL ,
+`c_chushengd`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_zhengdangxz`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_xueli`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_xuewei`  varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '               ' ,
+`c_biyeyx`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_zhuanyetc`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_hunyinzk`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_ruzhisj`  date NULL DEFAULT NULL ,
+`c_lianxidh`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_xiangangw`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_xiangangwsgsj`  timestamp NULL DEFAULT NULL ,
+`c_zhuanyegllj`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_bianzhi`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_zhiwu`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_zhuanyejszg`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_zhuanyejszgjssj`  timestamp NULL DEFAULT NULL ,
+`c_biyesj`  timestamp NULL DEFAULT NULL ,
+`c_dizhi`  varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_elnyonghu`  varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_huiqianbz1`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_huiqianbz2`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_huiqianbz3`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_danbao`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_bumen`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_suoshuks`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_shifousqqzr`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`c_zhaopian`  varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_mima`  varchar(250) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+PRIMARY KEY (`identity`),
+UNIQUE INDEX `PERSONNEL_I` (`identity`) USING BTREE ,
+INDEX `PERSONNEL_N` (`name`) USING BTREE ,
+INDEX `PERSONNEL_group_id` (`group_id`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_personnel_training
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_personnel_training`;
+CREATE TABLE `t_lims_personnel_training` (
+`personnel`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`training_course`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`competence`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '3' ,
+`date_completed`  timestamp NULL DEFAULT NULL ,
+UNIQUE INDEX `PERSONNEL_TRAINING_I` (`personnel`, `training_course`) USING BTREE ,
+INDEX `PERSONNEL_TC_INDEX` (`training_course`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_result
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_result`;
+CREATE TABLE `t_lims_result` (
+`test_number`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '          ' ,
+`name`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '                                        ' ,
+`order_number`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`result_type`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`units`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`minimum`  float NULL DEFAULT 0 ,
+`maximum`  float NULL DEFAULT 0 ,
+`typical`  float NULL DEFAULT 0 ,
+`true_word`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`false_word`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`allowed_characters`  varchar(26) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                          ' ,
+`calculation`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`value`  float NULL DEFAULT 0 ,
+`text`  varchar(360) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`places`  int(11) NULL DEFAULT 0 ,
+`out_of_range`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`status`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`old_status`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`entered_on`  timestamp NULL DEFAULT NULL ,
+`entered_by`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`date_authorised`  timestamp NULL DEFAULT NULL ,
+`authoriser`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`group_id`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`security_flags`  int(11) NULL DEFAULT 0 ,
+`sig_figs_number`  int(11) NULL DEFAULT 0 ,
+`sig_figs_rounding`  int(11) NULL DEFAULT 0 ,
+`sig_figs_filter`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`rep_control`  varchar(3) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '   ' ,
+`minimum_pql`  float NULL DEFAULT 0 ,
+`maximum_pql`  float NULL DEFAULT 0 ,
+`less_than_pql`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`greater_than_pql`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`pql_calculation`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`formula`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`dilution_factor`  float NULL DEFAULT 1 ,
+`spike_value`  float NULL DEFAULT 0 ,
+`surrogate_mlp`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`surrogate_mlp_version`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`matrix_no`  int(11) NULL DEFAULT 0 ,
+`matrix_name`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`column_no`  int(11) NULL DEFAULT 0 ,
+`column_name`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`row_no`  int(11) NULL DEFAULT 0 ,
+`row_name`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`has_incidents`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`instrument_used`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`raw_result`  varchar(360) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+PRIMARY KEY (`test_number`, `name`),
+UNIQUE INDEX `RESULT_I` (`test_number`, `name`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_result_copy
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_result_copy`;
+CREATE TABLE `t_lims_result_copy` (
+`test_number`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '          ' ,
+`name`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '                                        ' ,
+`order_number`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`result_type`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`units`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`minimum`  float NULL DEFAULT 0 ,
+`maximum`  float NULL DEFAULT 0 ,
+`typical`  float NULL DEFAULT 0 ,
+`true_word`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`false_word`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`allowed_characters`  varchar(26) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                          ' ,
+`calculation`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`value`  float NULL DEFAULT 0 ,
+`text`  varchar(360) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`places`  int(11) NULL DEFAULT 0 ,
+`out_of_range`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`status`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`old_status`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`entered_on`  timestamp NULL DEFAULT NULL ,
+`entered_by`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`date_authorised`  timestamp NULL DEFAULT NULL ,
+`authoriser`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`group_id`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`security_flags`  int(11) NULL DEFAULT 0 ,
+`sig_figs_number`  int(11) NULL DEFAULT 0 ,
+`sig_figs_rounding`  int(11) NULL DEFAULT 0 ,
+`sig_figs_filter`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`rep_control`  varchar(3) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '   ' ,
+`minimum_pql`  float NULL DEFAULT 0 ,
+`maximum_pql`  float NULL DEFAULT 0 ,
+`less_than_pql`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`greater_than_pql`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`pql_calculation`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`formula`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`dilution_factor`  float NULL DEFAULT 1 ,
+`spike_value`  float NULL DEFAULT 0 ,
+`surrogate_mlp`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`surrogate_mlp_version`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`matrix_no`  int(11) NULL DEFAULT 0 ,
+`matrix_name`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`column_no`  int(11) NULL DEFAULT 0 ,
+`column_name`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`row_no`  int(11) NULL DEFAULT 0 ,
+`row_name`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`has_incidents`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`instrument_used`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`raw_result`  varchar(360) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' '
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_sample
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_sample`;
+CREATE TABLE `t_lims_sample` (
+`id_numeric`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '          ' ,
+`id_text`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`job_name`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`status`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`old_status`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`compared`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`on_spec`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`re_sampled`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`original_sample`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`LINK_NUMBER`  decimal(38,0) NULL DEFAULT NULL ,
+`LOGIN_DATE`  datetime NULL DEFAULT NULL ,
+`login_by`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`SAMPLED_DATE`  datetime NULL DEFAULT NULL ,
+`RECD_DATE`  datetime NULL DEFAULT NULL ,
+`DATE_STARTED`  datetime NULL DEFAULT NULL ,
+`starter`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`DATERESREQ`  datetime NULL DEFAULT NULL ,
+`DATE_COMPLETED`  datetime NULL DEFAULT NULL ,
+`completer`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`DATERESAVAIL`  datetime NULL DEFAULT NULL ,
+`DATE_AUTHORISED`  datetime NULL DEFAULT NULL ,
+`authoriser`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`authorisation_notes`  varchar(234) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`product`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`product_version`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`grade_code`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`TESTS_TO_DO`  decimal(38,0) NULL DEFAULT NULL ,
+`on_wks`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`project_id`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`batch_name`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`sampling_point`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`sample_type`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`sample_name`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`description`  varchar(234) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`preparation`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`hazard`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`priority`  int(11) NULL DEFAULT 1 ,
+`location_id`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`customer_id`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`invoice_number`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`test_schedule`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`template_id`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`comp_prod_name`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`comp_prod_ver`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '         1' ,
+`comp_prod_grade`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`standard`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`standard_id`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`standard_version`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`inspection_header`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`standard_type`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`batch_id`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`dynamic_product`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`total_elements`  int(11) NULL DEFAULT 1 ,
+`sampling_procedure`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`replicate_link_no`  int(11) NULL DEFAULT 0 ,
+`auto_validate`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`has_incidents`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`certificate`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`substance`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_jianpinbh`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_shoujianrq`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_jianpindl`  varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_jianpinmc`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_shengchandw`  varchar(120) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_gongyangdwxz`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_guige`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_baozhuang`  varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_baozhuanggg`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_jixing`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_songyangdw`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_songyangdwgsd`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_shengchandwszd`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_jianyanmddx`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_jianyanmdxx`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_huanjiqk`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_pishu`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_pihao`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_jianpinsl`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_xiaoqi`  varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_baogaosm`  varchar(140) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_baogaorq`  date NULL DEFAULT NULL ,
+`c_beizhu`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_shangwangcxbh`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_pizhunwh`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_xinyaoslbh`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_renwuly`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_jianyanzq`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_shifouty`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_shifoufw`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_shifoufbz`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_jobleixing`  varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_jobbianhao`  varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_guanlianjp`  varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_chaoqizt`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_jiajify`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_qitafy`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_jianyanfy`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_zhucezh`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_yingwenmc`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_zhongwenspm`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_yingwenspm`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_shengchangbcm`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_guobie`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_baoyandw`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_baoyandwxz`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_jianyantzsbh`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_tiyundbh`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_baoyansl`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_baoyansldw`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_chouyangsl`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_chouyangsldw`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_shangpinbh`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_hetongh`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_maifangdw_1`  varchar(120) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_maifangdw_2`  varchar(120) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_zhucezyxq`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_shouhuodw`  varchar(120) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_jinkouka`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_liuyangqs`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_tongguanrq`  date NULL DEFAULT NULL ,
+`c_pizhuntgj`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_jinkourq`  date NULL DEFAULT NULL ,
+`c_lianxir`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_lianxidh`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_yaobaocdl`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_yangpinmc`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_gongyangdw`  varchar(120) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_jianyanyj`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_liuyangsl`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_shoulibh`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_zhujianks`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_suozaid`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_suoshulbdl`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_suoshulbxl`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_gongnengsc`  varchar(250) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_suozaiqy`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_suoshudq`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_caiyangddy`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_shengchandwdz`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_gongyangdwdz`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_weituojgqy`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_chousongdw`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_chousongdwgsd`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_shengchanrq`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`c_yangpinsl`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_yangpinzt`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_zhuceslbh`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_yangpinbh`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_sherul`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_shipinlhfddj`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_fuhejyslbh`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_yangpinmcww`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_songyangsl`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_yangpinxz`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_yangpinph`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_yangpingg`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_baozhiq`  varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_yangpinlb`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_baocuntj`  varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_jianyanlb`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_shenqingqymc`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_shenqingqydz`  varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_youbian`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_jingneisbjgmc`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_jingneisbjgdz`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_chandi`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_xukezh`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_querenqk`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_xinghao`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_zaihuasbzrdwmc`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_zaihuasbzrdwdz`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_zaihuasbzrdwlxdh`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_zaihuasbzrdwyb`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_zaihuasbzrdwcz`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_zaihuasbzrdwlxr`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_chuanzhen`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_xingzhengxkfl`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`c_jianyanks`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_jianyanmd`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_weituodw`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_jianyangs`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_pijianh`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_jianshu`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_jianyanxm`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_jinkouje`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_jinkoujedw`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_shoujianzt`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_xianqisyrq`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                                        ' ,
+`u_sample_in_man`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_yaopindl`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_beichouydw`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_beichouydwxz`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_beichouydwgsd`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_beichouydwdz`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_beichouydwyb`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_beichouydwszd`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_yushouf`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_xiejianks`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_zhouzhuanqx`  timestamp NULL DEFAULT NULL ,
+`c_keshiqx`  timestamp NULL DEFAULT NULL ,
+`c_guochoubh`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_gongyangdwgsd`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_jianpinsldw`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_jianpinywmc`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_jianyanslbh`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_shenqingqyyb`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_jingneisbjgyb`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_shenqingqylxr`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_shenqingqylxdh`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_jingneisbjglxr`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_jingneisbjglxrdh`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_tuiyangsl`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_zhucelx`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_shengchanxkzh`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_yibeil`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_liuyangfs`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_liuyangly`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_shengyusl`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_jianyangxh`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_zhekoul`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_webid`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_jinedw`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_yuanjianyjgmc`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_yuanbaogsbh`  varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_chouyangdbh`  varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_shengchandwyb`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_jianpinfl`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_zuizhongsf`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' ,
+`c_webid_muban`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_webid_wtxy`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_operate_date`  timestamp NULL DEFAULT NULL ,
+PRIMARY KEY (`id_numeric`),
+INDEX `SAMPLE_C_JIANPINBH_INDEX` (`c_jianpinbh`) USING BTREE ,
+INDEX `SAMPLE_JOB_NAME_INDEX` (`job_name`) USING BTREE ,
+INDEX `SAMPLE_JOB_BIAOHAO_INDEX` (`c_jobbianhao`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_test
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_test`;
+CREATE TABLE `t_lims_test` (
+`test_number`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`analysis`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`sample`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`preparation`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`test_count`  int(11) NULL DEFAULT 0 ,
+`status`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`old_status`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`date_started`  timestamp NULL DEFAULT NULL ,
+`starter`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`date_completed`  timestamp NULL DEFAULT NULL ,
+`completer`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`date_authorised`  timestamp NULL DEFAULT NULL ,
+`authoriser`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`component_replicates`  int(11) NULL DEFAULT 0 ,
+`worksheet`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`worksheet_position`  int(11) NULL DEFAULT 0 ,
+`replicate_test`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`instrument`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`test_priority`  int(11) NULL DEFAULT 1 ,
+`on_spec`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`test_schedule`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`order_num`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`has_result_list`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`component_list`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`analysis_version`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '         1' ,
+`preparation_batch`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`instrument_batch`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`parent_test`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`inspection_header`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`trigger_rule`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`trigger_analysis`  varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`stat_double_att_fail`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`validation_status`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'V' ,
+`authorisation_comment`  varchar(234) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`auto_validate`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`has_incidents`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`instrument_type`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`instrument_required`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`c_biaozhungd`  varchar(250) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_baogaoxh`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_baogaoxsmc`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_shoufeizt`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_shenpibz`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_ceshibzffmc`  varchar(250) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_jiancexmdx`  varchar(250) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_shifoufb`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`c_daxiangpxh`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_shifoucfw`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+UNIQUE INDEX `TEST_I` (`test_number`) USING BTREE ,
+INDEX `SAMP_ANAL_INDEX` (`sample`, `analysis`) USING BTREE ,
+INDEX `PK_TEST_NUMBER` (`test_number`) USING BTREE ,
+INDEX `PK_STARTER` (`starter`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_training_course
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_training_course`;
+CREATE TABLE `t_lims_training_course` (
+`identity`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`group_id`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`name`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`description`  varchar(234) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`external`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`type`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'SAFETY' ,
+`retest_interval`  varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '   0 00:00:00.00' ,
+`retest_grace_period_interval`  varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '   0 00:00:00.00' ,
+`retest_warning_period_interval`  varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '   0 00:00:00.00' ,
+`operator_id`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`modified_on`  timestamp NULL DEFAULT NULL ,
+`modified_by`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`modifiable`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`removeflag`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+UNIQUE INDEX `TRAINING_COURSE_I` (`identity`) USING BTREE ,
+INDEX `TRAINING_COURSE_N` (`name`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_ts_apply_ins_stock
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_ts_apply_ins_stock`;
+CREATE TABLE `t_lims_ts_apply_ins_stock` (
+`id`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' ,
+`batch_id`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`apply_name`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`applyer`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`apply_date`  timestamp NULL DEFAULT NULL ,
+`ins_stock_id`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`numbers`  varchar(4) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '    ' ,
+`office`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`is_delete`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`remark`  varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`status`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`specifications`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`shengchanchang`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`a6_cmatcode`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`approval_item_pid`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+PRIMARY KEY (`id`),
+UNIQUE INDEX `TS_APPLY_INS_STOCK_I` (`id`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_ts_buy_ins_stock
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_ts_buy_ins_stock`;
+CREATE TABLE `t_lims_ts_buy_ins_stock` (
+`id`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '                    ' ,
+`name`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`specifications`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`in_number`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`purity`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`remark`  varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`status`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`applyer`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`apply_date`  timestamp NULL DEFAULT NULL ,
+`officeid`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`removeflag`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+PRIMARY KEY (`id`),
+UNIQUE INDEX `TS_BUY_INS_STOCK_I` (`id`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_ts_dept_stock
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_ts_dept_stock`;
+CREATE TABLE `t_lims_ts_dept_stock` (
+`id`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`office_id`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`name`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`batch_id`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`package`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`specifications`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`purity`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`brand`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`provider`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`store_condition`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`safe_info`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`density`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`remark`  varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`resources`  varchar(4) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '    ' ,
+`is_finicky`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`is_open_bottle`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`in_number`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`status`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`category`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`days`  varchar(4) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '    ' ,
+`tianliao`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`lijing`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`kongjing`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`changdu`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`code`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`mingchen`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`leibie`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`jiliangunit`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`shengchanshang`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`danjia`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`zhuangtai`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`midu`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`hanliang`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`ganzao`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`zhuangliang`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`shengchanriqi`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`biaozhunzhi`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`shijinongdu`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`peizhiliang`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`shengyuliang`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`peizhiren`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`peizhishijian`  date NULL DEFAULT NULL ,
+`youxiaoqi`  date NULL DEFAULT NULL ,
+`peizhibeizhu`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`stock_info_id`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`density_unit`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`family`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`eln_link`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`chengliang`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`f_value`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`genre`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`jobid`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`produce_date`  date NULL DEFAULT NULL ,
+`weight`  varchar(12) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '            ' ,
+`unit`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`bottle_weight`  varchar(12) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '            ' ,
+`bottle_unit`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`is_newuse`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+UNIQUE INDEX `TS_DEPT_STOCK_I` (`id`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_ts_dept_stock_info
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_ts_dept_stock_info`;
+CREATE TABLE `t_lims_ts_dept_stock_info` (
+`id`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '                    ' ,
+`office_stock_id`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`code`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`weight`  varchar(12) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '            ' ,
+`now_number`  varchar(12) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '            ' ,
+`unit`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`bottle_weight`  varchar(12) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '            ' ,
+`bottle_unit`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`produce_date`  timestamp NULL DEFAULT NULL ,
+`validity_date`  timestamp NULL DEFAULT NULL ,
+`open_date`  timestamp NULL DEFAULT NULL ,
+`open_validity_date`  timestamp NULL DEFAULT NULL ,
+`remark`  varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`status`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`in_date`  timestamp NULL DEFAULT NULL ,
+`youxiaoshichang`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`w1`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`w2`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`peizhiliang`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`shijinongdu`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`hanliang`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`chengliang`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`f_value`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`eln_link`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`genre`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`peizhiren`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`peizhishijian`  timestamp NULL DEFAULT NULL ,
+`mingcheng`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`jobid`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`jzzl`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`jzdc`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`jzbh`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+PRIMARY KEY (`id`),
+UNIQUE INDEX `TS_DEPT_STOCK_INFO_I` (`id`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_ts_ins_stock
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_ts_ins_stock`;
+CREATE TABLE `t_lims_ts_ins_stock` (
+`id`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`stock_info_id`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`name`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`batch_id`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`package`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`specifications`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`purity`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`brand`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`provider`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`store_condition`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`safe_info`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`density`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`remark`  varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`is_finicky`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`validity_date`  date NULL DEFAULT NULL ,
+`now_number`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`weight`  varchar(12) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '            ' ,
+`present_number`  varchar(12) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '            ' ,
+`unit`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`bottle_weight`  varchar(12) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '            ' ,
+`bottle_unit`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`produce_date`  date NULL DEFAULT NULL ,
+`in_date`  date NULL DEFAULT NULL ,
+`in_number`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`status`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`category`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`family`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`tianliao`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`lijing`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`kongjing`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`changdu`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`code`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`mingchen`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`leibie`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`jiliangunit`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`shengchanshang`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`danjia`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`zhuangtai`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`midu`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`hanliang`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`ganzao`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`zhuangliang`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`shengchanriqi`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`biaozhunzhi`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`density_unit`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`jobid`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`eln_link`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`jzzl`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`jzdc`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`jzbh`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+UNIQUE INDEX `TS_INS_STOCK_I` (`id`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_ts_out_ins_stock
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_ts_out_ins_stock`;
+CREATE TABLE `t_lims_ts_out_ins_stock` (
+`id`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '                    ' ,
+`apply_stock_id`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`apply_name`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`out_date`  timestamp NULL DEFAULT NULL ,
+`batch_id`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`ins_stock_id`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`numbers`  varchar(4) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '    ' ,
+`apply_office`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`out_manager`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`is_delete`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`remark`  varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`status`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`specifications`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`jobid`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`code`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`shengchanchang`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+PRIMARY KEY (`id`),
+UNIQUE INDEX `TS_OUT_INS_STOCK_I` (`id`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_versioned_analysis
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_versioned_analysis`;
+CREATE TABLE `t_lims_versioned_analysis` (
+`identity`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`analysis_version`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '         1' ,
+`group_id`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`analysis_type`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`description`  varchar(400) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`insttype_id`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`preparation_id`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`expected_time`  varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '   0 00:00:00.00' ,
+`chargecode`  varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '               ' ,
+`result_screen`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`modified_on`  timestamp NULL DEFAULT NULL ,
+`modified_by`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`modifiable`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`removeflag`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`calculation`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`replicates`  int(11) NULL DEFAULT 1 ,
+`access_flags`  int(11) NULL DEFAULT 0 ,
+`comp_replicates`  int(11) NULL DEFAULT 0 ,
+`generic_analysis`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`approval_reqd`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`allow_category`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`approval_status`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'A' ,
+`inspection_plan`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`sampling_plan_type`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'FIXED' ,
+`auto_validate`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`instrument_required`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`sop_reference`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`uncertainty_text`  varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`name`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_baogaoxsmc`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_ceshibzffmc`  varchar(250) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_chaifenhdff`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_pandingyj`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_fujiasf`  varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '               ' ,
+`c_jianpinfl`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_jiancexmdx`  varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_jiancexmxx`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_yiqilx2`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`c_elnmubanbs`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_jixing`  varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_jixingxx`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`c_duizhaopclcs`  varchar(4) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '    ' ,
+`c_yangpinclcs`  varchar(4) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '    ' ,
+`c_ceshifflj`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_pingzhong`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_guige`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                              ' ,
+`c_biaozhungd`  varchar(250) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_yingwenmc`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_cma`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`c_cmaf`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`c_cnas`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+`c_elnxiaoxiang`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT ' ' ,
+`c_shifoucfw`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'F' ,
+UNIQUE INDEX `VERSIONED_ANALYSIS_I` (`identity`, `analysis_version`) USING BTREE ,
+INDEX `index_name` (`name`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_versioned_analysis_training
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_versioned_analysis_training`;
+CREATE TABLE `t_lims_versioned_analysis_training` (
+`versioned_analysis`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '          ' ,
+`analysis_version`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '         1' ,
+`training_course`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '                    ' ,
+`minimum_competence`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '3' ,
+UNIQUE INDEX `VERSIONED_ANALYSIS_TRAINING_I` (`versioned_analysis`, `analysis_version`, `training_course`) USING BTREE ,
+INDEX `VERSIONED_ANAL_TC_INDEX` (`training_course`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_lims_view_approval_waiting_item
+-- ----------------------------
+DROP TABLE IF EXISTS `t_lims_view_approval_waiting_item`;
+CREATE TABLE `t_lims_view_approval_waiting_item` (
+`ITEM_ID`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`URL`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`STEP`  int(2) NULL DEFAULT NULL ,
+`STEP_DESC`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`ITEM_PID`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`PID`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`PNAME`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`PTYPE`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`IDX`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`SUBMITER`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`SUBMIT_DATE`  datetime NULL DEFAULT NULL ,
+`MODEL_NAME`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`MODEL_ID`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`MODEL_TYPE`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`CUR_STEP_DATE`  datetime NULL DEFAULT NULL ,
+`STATIONS`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`APPROVER`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`APPROVAL_FIRST_PRIORITY`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`IS_PRIORITY`  int(1) NULL DEFAULT NULL ,
+`GROUP_FIELD`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`C_JIANPINBH`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`C_JIANPINMC`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+
+;
+
+-- ----------------------------
+-- Table structure for t_param_txt_inst
+-- ----------------------------
+DROP TABLE IF EXISTS `t_param_txt_inst`;
+CREATE TABLE `t_param_txt_inst` (
+`ID`  bigint(10) NOT NULL AUTO_INCREMENT ,
+`txt_param_id`  bigint(10) NULL DEFAULT NULL COMMENT 'txt模版参数ID' ,
+`inst_param_id`  bigint(10) NULL DEFAULT NULL COMMENT '仪器参数ID' ,
+`column_no`  int(10) NULL DEFAULT NULL COMMENT '列号（只针对表格参数）' ,
+`spe_column_no`  int(10) NULL DEFAULT NULL COMMENT '特殊列号（只针对分表的特殊列）' ,
+`block_param_id`  bigint(10) NULL DEFAULT NULL COMMENT '模版分块ID' ,
+`colspan`  int(2) NULL DEFAULT NULL COMMENT '合并列' ,
+`empty_flg`  int(2) NULL DEFAULT NULL COMMENT '是否可能为空' ,
+`comb_flg`  int(2) NULL DEFAULT NULL COMMENT '1---组合字段 2---非组合字段' ,
+`comb_separ`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '组合字段分隔符' ,
+`comb_seq`  int(5) NULL DEFAULT NULL COMMENT '组合字段次序' ,
+PRIMARY KEY (`ID`),
+INDEX `PK_TXT_PARAM_ID` (`txt_param_id`) USING BTREE ,
+INDEX `PK_INST_PARAM_ID` (`inst_param_id`) USING BTREE ,
+INDEX `PK_BLOCK_PARAM_ID` (`block_param_id`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=971
+
+;
+
+-- ----------------------------
+-- Table structure for t_scheduler_task
+-- ----------------------------
+DROP TABLE IF EXISTS `t_scheduler_task`;
+CREATE TABLE `t_scheduler_task` (
+`TASK_ID`  bigint(10) NOT NULL AUTO_INCREMENT COMMENT '任务主键' ,
+`temp_id`  bigint(10) NULL DEFAULT NULL COMMENT '模版ID' ,
+`file_path`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件路径' ,
+`create_time`  datetime NULL DEFAULT NULL COMMENT '创建时间' ,
+`creater`  bigint(10) NULL DEFAULT NULL COMMENT '创建人' ,
+`status`  int(11) NULL DEFAULT NULL COMMENT '任务状态 1---在用 2--失效' ,
+`last_running_time`  datetime NULL DEFAULT NULL COMMENT '上次运行时间' ,
+`task_name`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '任务名称' ,
+`task_desc`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '任务描述' ,
+PRIMARY KEY (`TASK_ID`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+COMMENT='解析文件任务'
+AUTO_INCREMENT=5
+
+;
+
+-- ----------------------------
+-- Table structure for t_scheduler_task_log
+-- ----------------------------
+DROP TABLE IF EXISTS `t_scheduler_task_log`;
+CREATE TABLE `t_scheduler_task_log` (
+`TASK_LOG_ID`  bigint(10) NOT NULL AUTO_INCREMENT COMMENT '记录主键' ,
+`task_id`  bigint(10) NULL DEFAULT NULL COMMENT '任务ID' ,
+`report_file_name`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '报告文件名' ,
+`create_time`  datetime NULL DEFAULT NULL COMMENT '任务创建时间' ,
+`finish_time`  datetime NULL DEFAULT NULL COMMENT '任务结束时间' ,
+`status`  int(1) NULL DEFAULT NULL COMMENT '解析状态 0--任务重置（可再次执行） 1--等待执行 2---执行中   3--成功 4--失败  ' ,
+`message`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '解析日志信息' ,
+PRIMARY KEY (`TASK_LOG_ID`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=47773
+
+;
+
+-- ----------------------------
+-- Table structure for t_system_log
+-- ----------------------------
+DROP TABLE IF EXISTS `t_system_log`;
+CREATE TABLE `t_system_log` (
+`id`  bigint(10) NOT NULL AUTO_INCREMENT COMMENT 'id' ,
+`content`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '内容' ,
+`create_time`  datetime NULL DEFAULT NULL COMMENT '操作时间' ,
+`type`  char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '(业务类型 1-登录 2-解析)' ,
+`result`  char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '(结果 1-成功  2-失败)' ,
+`username`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作用户' ,
+`errormessage`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '异常信息' ,
+`instrCode`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '报告解析日志仪器编码' ,
+`errorType`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '其他' COMMENT '异常类型' ,
+`file_name`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '解析日志，报告文件名称' ,
+`temp_id`  bigint(10) NULL DEFAULT NULL COMMENT '解析日志所关联的模版ID' ,
+PRIMARY KEY (`id`),
+INDEX `index_log_instr` (`instrCode`) USING BTREE ,
+INDEX `index_ct` (`create_time`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=104861
+
+;
+
+-- ----------------------------
+-- Table structure for t_temp_vector
+-- ----------------------------
+DROP TABLE IF EXISTS `t_temp_vector`;
+CREATE TABLE `t_temp_vector` (
+`id`  bigint(20) NOT NULL AUTO_INCREMENT ,
+`template_id`  bigint(20) NULL DEFAULT NULL COMMENT '模板ID' ,
+`extra_type`  varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '1＝文本，2＝样品 ，3＝标准样，4＝平行样' ,
+`preffix_check_code`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '校正前缀关键词' ,
+`suffix_check_code`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '校正前缀关键词' ,
+`x_coordinate`  int(11) NULL DEFAULT NULL COMMENT 'x坐标' ,
+`y_coordinate`  int(11) NULL DEFAULT NULL COMMENT 'y坐标' ,
+`width`  int(11) NULL DEFAULT NULL COMMENT '长宽' ,
+`height`  int(11) NULL DEFAULT NULL COMMENT '宽度' ,
+`page_vector`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分页坐标' ,
+`vector_type`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '矢量类型 text--文本 ，table--表格' ,
+`vector_num`  int(10) NULL DEFAULT NULL COMMENT '同一模版中的矢量序号，标识唯一' ,
+`row_count`  int(11) NULL DEFAULT NULL COMMENT '表格数据总列数' ,
+`spilt_row`  int(2) NULL DEFAULT NULL COMMENT '分表行' ,
+`if_spilt_table`  int(2) NULL DEFAULT NULL COMMENT '1--分表 2不分表' ,
+`table_header_line`  int(2) NULL DEFAULT NULL COMMENT '表头所占行数' ,
+PRIMARY KEY (`id`),
+INDEX `PK_TEMP_ID` (`template_id`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+COMMENT='模板矢量表'
+AUTO_INCREMENT=191
+
+;
+
+-- ----------------------------
+-- Table structure for t_temp_xml_node
+-- ----------------------------
+DROP TABLE IF EXISTS `t_temp_xml_node`;
+CREATE TABLE `t_temp_xml_node` (
+`ID`  bigint(10) NOT NULL AUTO_INCREMENT ,
+`node_name`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节点名称' ,
+`path`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节点路径' ,
+`template_id`  bigint(10) NOT NULL COMMENT '模版ID' ,
+`instr_param_id`  bigint(10) NULL DEFAULT NULL COMMENT '对应仪器参数ID' ,
+`list_flg`  int(2) NULL DEFAULT NULL COMMENT '是否属于列表  1---是 2--否' ,
+PRIMARY KEY (`ID`),
+INDEX `PK_TEMP_ID` (`template_id`) USING BTREE ,
+INDEX `PK_INSTR_PARAM_ID` (`instr_param_id`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=129
+
+;
+
+-- ----------------------------
+-- Table structure for t_template
+-- ----------------------------
+DROP TABLE IF EXISTS `t_template`;
+CREATE TABLE `t_template` (
+`id`  bigint(20) NOT NULL AUTO_INCREMENT ,
+`instrument_id`  bigint(20) NULL DEFAULT NULL COMMENT '仪器ID' ,
+`template_name`  varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '模板名称' ,
+`creator`  bigint(20) NULL DEFAULT NULL COMMENT '创建人' ,
+`create_time`  timestamp NULL DEFAULT NULL COMMENT '创建时间' ,
+`last_updator`  bigint(20) NULL DEFAULT NULL COMMENT '更新人' ,
+`last_update_time`  timestamp NULL DEFAULT NULL COMMENT '最后更新时间' ,
+`template_file`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '模板文件' ,
+`template_type`  int(10) NULL DEFAULT NULL COMMENT '1--PDF,2--TXT,3--CSV,4---XML' ,
+`file_source`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件来源' ,
+PRIMARY KEY (`id`),
+INDEX `PK_INSTR_ID` (`instrument_id`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=1064
+
+;
+
+-- ----------------------------
+-- Table structure for t_template_block
+-- ----------------------------
+DROP TABLE IF EXISTS `t_template_block`;
+CREATE TABLE `t_template_block` (
+`ID`  bigint(10) NOT NULL AUTO_INCREMENT ,
+`start_key`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文档开始关键字' ,
+`block_start_key`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '块开始关键字' ,
+`block_end_key`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '块结束关键字' ,
+`start_page`  int(3) NULL DEFAULT NULL COMMENT '第几页开始读取（冗余）' ,
+`template_id`  bigint(10) NULL DEFAULT NULL COMMENT '模版ID' ,
+`validater_key`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '由于PDF分页需要去除的行中关键字' ,
+`eff_area_end_key`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '有效区域结束关键字' ,
+PRIMARY KEY (`ID`),
+INDEX `PK_TEMP_ID` (`template_id`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+COMMENT='模块分块'
+AUTO_INCREMENT=75
+
+;
+
+-- ----------------------------
+-- Table structure for t_template_file
+-- ----------------------------
+DROP TABLE IF EXISTS `t_template_file`;
+CREATE TABLE `t_template_file` (
+`id`  bigint(10) NOT NULL AUTO_INCREMENT ,
+`file_name`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件名称' ,
+`file_type`  int(2) NULL DEFAULT NULL COMMENT '文件类型 1--pdf  2---txt 3---csv 4---xml' ,
+`create_time`  datetime NULL DEFAULT NULL COMMENT '创建日期' ,
+`instrument_id`  bigint(10) NULL DEFAULT NULL COMMENT '关联仪器ID' ,
+PRIMARY KEY (`id`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+COMMENT='模版文件'
+AUTO_INCREMENT=24
+
+;
+
+-- ----------------------------
+-- Table structure for t_template_parameter
+-- ----------------------------
+DROP TABLE IF EXISTS `t_template_parameter`;
+CREATE TABLE `t_template_parameter` (
+`ID`  bigint(10) NOT NULL AUTO_INCREMENT ,
+`template_id`  bigint(10) NULL DEFAULT NULL COMMENT '关联模版ID' ,
+`block_id`  bigint(10) NULL DEFAULT NULL COMMENT '关联模版分块ID' ,
+`param_key`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '关键字' ,
+`validate_key`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '校验值（读到校验值认为该参数为空）' ,
+`param_type`  int(2) NULL DEFAULT NULL COMMENT '参数类型 1---文本 2---表格 3----文本表格组合' ,
+`filter_key`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '过滤字符（存在过滤字符的话，忽略该字符，读取下一个参数到校验值的组合为所取值）' ,
+`result_line_flag`  int(2) NULL DEFAULT NULL COMMENT '是否存在结果行（1，存在2不存在）' ,
+`result_position`  int(2) NULL DEFAULT NULL COMMENT '结果行位置' ,
+`table_start_key`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表格开始位置关键字' ,
+`table_end_key`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '表格结束位置关键字' ,
+`param_seq`  int(2) NULL DEFAULT NULL COMMENT '出现次序（可能关键字重复出现，读取第几个）' ,
+`table_header_line`  int(2) NULL DEFAULT NULL COMMENT '表头所占txt文件行数' ,
+`table_result_type`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '结果行类型关键字' ,
+`table_rowsnum`  int(2) NULL DEFAULT NULL COMMENT '表格总列数' ,
+PRIMARY KEY (`ID`),
+INDEX `PK_TEMP_ID` (`template_id`) USING BTREE ,
+INDEX `PK_BLOCK_ID` (`block_id`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+COMMENT='模版参数表 PDF（分块）模版中与分块表关联 TXT模版中直接与模版关联'
+AUTO_INCREMENT=228
+
+;
+
+-- ----------------------------
+-- Table structure for t_test_report_data
+-- ----------------------------
+DROP TABLE IF EXISTS `t_test_report_data`;
+CREATE TABLE `t_test_report_data` (
+`id`  bigint(20) NOT NULL AUTO_INCREMENT ,
+`sample_no`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '样品编号' ,
+`data_type`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据类型 1--报告参数2--样品参数 3--标准品结果 4--样品结果 5--结果行' ,
+`test_report_log_id`  bigint(20) NULL DEFAULT NULL COMMENT '报告记录ID' ,
+`instrument_field_id`  bigint(20) NULL DEFAULT NULL COMMENT '字段ID' ,
+`value`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数值' ,
+`test_id`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '检品标识，ELN系统' ,
+`group_no`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`line_index`  int(5) NULL DEFAULT NULL COMMENT '表格行号' ,
+`px_order`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '平行样次数' ,
+`line_mark`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '行标识或者表格标识' ,
+PRIMARY KEY (`id`),
+INDEX `PK_TEST_REPORT_LOG_ID` (`test_report_log_id`) USING BTREE ,
+INDEX `PK_INSTR_FIELD_ID` (`instrument_field_id`) USING BTREE ,
+INDEX `index_1` (`sample_no`, `data_type`, `value`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+COMMENT='报告数据(纵表)'
+AUTO_INCREMENT=529704
+
+;
+
+-- ----------------------------
+-- Table structure for t_test_report_log
+-- ----------------------------
+DROP TABLE IF EXISTS `t_test_report_log`;
+CREATE TABLE `t_test_report_log` (
+`id`  bigint(20) NOT NULL AUTO_INCREMENT ,
+`temp_id`  bigint(20) NULL DEFAULT NULL ,
+`document_id`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '实验文档编码(ELN系统)' ,
+`creator`  varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '上传人' ,
+`create_time`  timestamp NULL DEFAULT NULL COMMENT '上传时间' ,
+`file_path`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件目录' ,
+`file_name`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件名' ,
+`type`  int(2) NULL DEFAULT NULL COMMENT '1--测试数据 2---虚拟打印机解析 3---网络版4---虚拟打印机非解析' ,
+`instrCode`  varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '仪器编码' ,
+`status`  int(2) NULL DEFAULT 1 COMMENT '有效性 1----最新  2----被覆盖' ,
+`sample_no`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '报告中所获取到的检品编码集合，多个以;隔开' ,
+`report_create_time`  datetime NULL DEFAULT NULL COMMENT '报告创建时间' ,
+`report_uuid`  varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '报告唯一标识(目前仅适用于网络版)' ,
+`sampleCodesFromUser`  varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '虚拟打印机所选检品编码' ,
+`test_id`  varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '检项编号（仅网络版）' ,
+PRIMARY KEY (`id`),
+INDEX `PK_TEMP_ID` (`temp_id`) USING BTREE ,
+INDEX `index_doc_id` (`document_id`) USING BTREE ,
+INDEX `index_instr_code` (`instrCode`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+COMMENT='测试报告记录'
+AUTO_INCREMENT=44735
+
+;
+
+-- ----------------------------
+-- Table structure for t_vector_column_map
+-- ----------------------------
+DROP TABLE IF EXISTS `t_vector_column_map`;
+CREATE TABLE `t_vector_column_map` (
+`id`  bigint(20) NOT NULL AUTO_INCREMENT ,
+`temp_vector_id`  bigint(20) NULL DEFAULT NULL COMMENT '模板矢量ID' ,
+`template_id`  bigint(20) NULL DEFAULT NULL COMMENT '模板ID' ,
+`instr_data_id`  bigint(20) NULL DEFAULT NULL COMMENT '抓取字段ID' ,
+`column_no`  int(11) NULL DEFAULT NULL ,
+`spe_column_no`  int(10) NULL DEFAULT NULL ,
+`colspan`  int(2) NULL DEFAULT 0 COMMENT '合并列' ,
+`empty_flg`  int(2) NULL DEFAULT NULL COMMENT '是否可能为空 1--是 2--否' ,
+PRIMARY KEY (`id`),
+INDEX `FK_Reference_10` (`temp_vector_id`) USING BTREE ,
+INDEX `FK_Reference_17` (`instr_data_id`) USING BTREE ,
+INDEX `PK_TEMP_ID` (`template_id`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+COMMENT='矢量字段影射表'
+AUTO_INCREMENT=404
+
+;
+
+-- ----------------------------
+-- Auto increment value for s_dictionary
+-- ----------------------------
+ALTER TABLE `s_dictionary` AUTO_INCREMENT=28;
+
+-- ----------------------------
+-- Auto increment value for s_menu
+-- ----------------------------
+ALTER TABLE `s_menu` AUTO_INCREMENT=230;
+
+-- ----------------------------
+-- Auto increment value for s_organization
+-- ----------------------------
+ALTER TABLE `s_organization` AUTO_INCREMENT=2;
+
+-- ----------------------------
+-- Auto increment value for s_resource
+-- ----------------------------
+ALTER TABLE `s_resource` AUTO_INCREMENT=181;
+
+-- ----------------------------
+-- Auto increment value for s_role
+-- ----------------------------
+ALTER TABLE `s_role` AUTO_INCREMENT=1468;
+
+-- ----------------------------
+-- Auto increment value for s_user
+-- ----------------------------
+ALTER TABLE `s_user` AUTO_INCREMENT=1234;
+
+-- ----------------------------
+-- Auto increment value for t_instrument
+-- ----------------------------
+ALTER TABLE `t_instrument` AUTO_INCREMENT=91;
+
+-- ----------------------------
+-- Auto increment value for t_instrument_field
+-- ----------------------------
+ALTER TABLE `t_instrument_field` AUTO_INCREMENT=240;
+
+-- ----------------------------
+-- Auto increment value for t_instrument_type
+-- ----------------------------
+ALTER TABLE `t_instrument_type` AUTO_INCREMENT=50;
+
+-- ----------------------------
+-- Auto increment value for t_lims_group
+-- ----------------------------
+ALTER TABLE `t_lims_group` AUTO_INCREMENT=25;
+
+-- ----------------------------
+-- Auto increment value for t_param_txt_inst
+-- ----------------------------
+ALTER TABLE `t_param_txt_inst` AUTO_INCREMENT=971;
+
+-- ----------------------------
+-- Auto increment value for t_scheduler_task
+-- ----------------------------
+ALTER TABLE `t_scheduler_task` AUTO_INCREMENT=5;
+
+-- ----------------------------
+-- Auto increment value for t_scheduler_task_log
+-- ----------------------------
+ALTER TABLE `t_scheduler_task_log` AUTO_INCREMENT=47773;
+
+-- ----------------------------
+-- Auto increment value for t_system_log
+-- ----------------------------
+ALTER TABLE `t_system_log` AUTO_INCREMENT=104861;
+
+-- ----------------------------
+-- Auto increment value for t_temp_vector
+-- ----------------------------
+ALTER TABLE `t_temp_vector` AUTO_INCREMENT=191;
+
+-- ----------------------------
+-- Auto increment value for t_temp_xml_node
+-- ----------------------------
+ALTER TABLE `t_temp_xml_node` AUTO_INCREMENT=129;
+
+-- ----------------------------
+-- Auto increment value for t_template
+-- ----------------------------
+ALTER TABLE `t_template` AUTO_INCREMENT=1064;
+
+-- ----------------------------
+-- Auto increment value for t_template_block
+-- ----------------------------
+ALTER TABLE `t_template_block` AUTO_INCREMENT=75;
+
+-- ----------------------------
+-- Auto increment value for t_template_file
+-- ----------------------------
+ALTER TABLE `t_template_file` AUTO_INCREMENT=24;
+
+-- ----------------------------
+-- Auto increment value for t_template_parameter
+-- ----------------------------
+ALTER TABLE `t_template_parameter` AUTO_INCREMENT=228;
+
+-- ----------------------------
+-- Auto increment value for t_test_report_data
+-- ----------------------------
+ALTER TABLE `t_test_report_data` AUTO_INCREMENT=529704;
+
+-- ----------------------------
+-- Auto increment value for t_test_report_log
+-- ----------------------------
+ALTER TABLE `t_test_report_log` AUTO_INCREMENT=44735;
+
+-- ----------------------------
+-- Auto increment value for t_vector_column_map
+-- ----------------------------
+ALTER TABLE `t_vector_column_map` AUTO_INCREMENT=404;
