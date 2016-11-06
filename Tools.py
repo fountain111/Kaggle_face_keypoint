@@ -1,16 +1,10 @@
 import numpy as np
 import pandas as pd
 import tensorflow as tf
-import matplotlib.pyplot as plt
 from Global_defintion import *
 FLOOKUP = 'IdLookupTable.csv'
-FLAGS = tf.app.flags.FLAGS
 
-
-tf.app.flags.DEFINE_string('data_dir', '/Users/kakurong/PycharmProjects/Kaggle_face_keypoint/data/',
-                           """Directory where to write event logs """
-                           """and checkpoint.""")
-flip_indices = [
+flip_indices_eye_center = [
     (0, 2), (1, 3),
     (4, 8), (5, 9), (6, 10), (7, 11),
     (12, 16), (13, 17), (14, 18), (15, 19),
@@ -22,33 +16,47 @@ def data_argument():
     images,labels = shuffle(images,labels)
     return split_trainValidation(images,labels)
 
-def dataArgument_withColumn(datas,index_Col):
-    #datas = pd.read_csv('training.csv')
-    #datas = pd.DataFrame(datas)
+def DataCenter_eye(input,start,end):
+    images = np.vstack(input['Image'].apply(lambda im: np.fromstring(im, sep=' ') / 255.0).values).astype(
+        np.float32)
+    labels = input[input.columns[:-1]].values / 96
 
+    images,labels = shuffle(images,labels)
+    images = pd.DataFrame(images)
+    labels = pd.DataFrame(labels)
+    i_labels = labels.ix[:, start:end].dropna()
+    i_images = images.ix[i_labels.index]
+    i_labels = i_labels.as_matrix()
+    i_images = i_images.as_matrix()
+    return split_trainValidation(i_images, i_labels)
+
+
+def dataArgument_withColumn(datas,start,end):
     images,labels = flip_images(datas)
     images,labels = shuffle(images,labels)
     images = pd.DataFrame(images)
     labels = pd.DataFrame(labels)
-    i_labels = labels.ix[:,index_Col-1: index_Col-1].dropna()
+    i_labels = labels.ix[:,start:end].dropna()
     i_images = images.ix[i_labels.index]
     i_labels = i_labels.as_matrix()
     i_images = i_images.as_matrix()
     return split_trainValidation(i_images,i_labels)
 
 
+
+
 def flip_images(input):
     images = np.vstack(input['Image'].apply(lambda im: np.fromstring(im, sep=' ') / 255.0).values).astype(
-        np.float32).reshape(-1, INPUT_SIZE)
+        np.float32)
     labels = input[input.columns[:-1]].values / 96
     images_flip = np.copy(images)
     images_flip = images_flip.reshape(-1, 1, 96, 96)
     images_flip = images_flip[:, :, :, ::-1]
     images_flip = images_flip.reshape(-1, INPUT_SIZE)
     labels_flip = np.copy(labels)
-    for a, b in flip_indices:
-        labels_flip[flip_indices, a], labels_flip[flip_indices, b] = (
-        labels_flip[flip_indices, b], labels_flip[flip_indices, a])
+    for a, b in flip_indices_eye_center:
+        labels_flip[flip_indices_eye_center, a], labels_flip[flip_indices_eye_center, b] = (
+            labels_flip[flip_indices_eye_center, b], labels_flip[flip_indices_eye_center, a])
 
     images = np.vstack((images_flip, images))
     labels = np.vstack((labels_flip, labels))
@@ -70,24 +78,30 @@ def shuffle(datas,labels):
     return datas[shuffle_index],labels[shuffle_index]
 
 
-def get_batch(batch_size, train_images, train_labels, index_in_epoch, epochs_completed, train_size):
+def get_batch(batch_size, index_in_epoch, epochs_completed,train_size,inputs,labels):
     start = index_in_epoch
     index_in_epoch += batch_size
+    #those two variables for a new epoch  with shuufle.
+    inputs_new = None
+    labels_new = None
     # when all trainig data have been already used, it is reorder randomly
     if index_in_epoch > train_size:
         # finished epoch
         epochs_completed += 1
+        print ("epoch =", epochs_completed)
         # shuffle the data
-        perm = np.arange(train_size)
-        np.random.shuffle(perm)
-        train_images = train_images[perm]
-        train_labels = train_labels[perm]
+        #perm = np.arange(train_size)
+        #np.random.shuffle(perm)
+        #train_images = train_images[perm]
+        #train_labels = train_labels[perm]
+        inputs_new,labels_new =  shuffle(inputs, labels)
+        inputs,labels = inputs_new,labels_new
         # start next epoch
         start = 0
         index_in_epoch = batch_size
         assert batch_size <= train_size
     end = index_in_epoch
-    return train_images[start:end], train_labels[start:end], index_in_epoch, epochs_completed, train_images, train_labels
+    return inputs[start:end],labels[start:end], index_in_epoch, epochs_completed,inputs_new,labels_new
 
 def next_batch(batch_size, train_images, train_labels, index_in_epoch, epochs_completed, train_size):
     start = index_in_epoch
@@ -177,69 +191,3 @@ def eval_in_batches(data, sess, eval_prediction, x,keep_prob,phase_train):
                 feed_dict={x: data[-BATCH_SIZE:, ...],keep_prob:1,phase_train:False})
             predictions[begin:, :] = batch_predictions[begin - size:, :]
     return predictions
-
-def read_png(image_file):
-    filename_queue = tf.train.string_input_producer(["/Users/kakurong/PycharmProjects/Kaggle_face_keypoint/data/img.png"]) #  list of files to read
-
-    reader = tf.WholeFileReader()
-    key, value = reader.read(filename_queue)
-    return tf.image.decode_png(value)
-
-
-
-
-
-
-SPECIALIST_SETTINGS = [
-    dict(
-        columns=(
-            'left_eye_center_x', 'left_eye_center_y',
-            'right_eye_center_x', 'right_eye_center_y',
-        ),
-        flip_indices=((0, 2), (1, 3)),
-        ),
-
-    dict(
-        columns=(
-            'nose_tip_x', 'nose_tip_y',
-        ),
-        flip_indices=(),
-        ),
-
-    dict(
-        columns=(
-            'mouth_left_corner_x', 'mouth_left_corner_y',
-            'mouth_right_corner_x', 'mouth_right_corner_y',
-            'mouth_center_top_lip_x', 'mouth_center_top_lip_y',
-        ),
-        flip_indices=((0, 2), (1, 3)),
-        ),
-
-    dict(
-        columns=(
-            'mouth_center_bottom_lip_x',
-            'mouth_center_bottom_lip_y',
-        ),
-        flip_indices=(),
-        ),
-
-    dict(
-        columns=(
-            'left_eye_inner_corner_x', 'left_eye_inner_corner_y',
-            'right_eye_inner_corner_x', 'right_eye_inner_corner_y',
-            'left_eye_outer_corner_x', 'left_eye_outer_corner_y',
-            'right_eye_outer_corner_x', 'right_eye_outer_corner_y',
-        ),
-        flip_indices=((0, 2), (1, 3), (4, 6), (5, 7)),
-        ),
-
-    dict(
-        columns=(
-            'left_eyebrow_inner_end_x', 'left_eyebrow_inner_end_y',
-            'right_eyebrow_inner_end_x', 'right_eyebrow_inner_end_y',
-            'left_eyebrow_outer_end_x', 'left_eyebrow_outer_end_y',
-            'right_eyebrow_outer_end_x', 'right_eyebrow_outer_end_y',
-        ),
-        flip_indices=((0, 2), (1, 3), (4, 6), (5, 7)),
-        ),
-    ]
