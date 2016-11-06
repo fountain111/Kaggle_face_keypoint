@@ -50,9 +50,9 @@ def flip_images_labels(images,labels,location):
     images_flip = images_flip.reshape(-1, INPUT_IMAGE_DIM)
     labels_flip = np.copy(labels)
     if location == "eye_center":
-        labels_flip[:,0] = labels[:, 2]
+        labels_flip[:,0] = 1-labels[:, 2]
         labels_flip[:,1] = labels[:, 3]
-        labels_flip[:,2] = labels[:, 0]
+        labels_flip[:,2] = 1-labels[:, 0]
         labels_flip[:,3] = labels[:, 1]
     return images_flip, labels_flip
 
