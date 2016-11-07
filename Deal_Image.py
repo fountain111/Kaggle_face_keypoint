@@ -5,7 +5,7 @@ import tensorflow as tf
 from utility import Tools as tl
 
 INPUT_IMAGE_DIM = 9216
-IMAGE_DIR = '/Users/kakurong/PycharmProjects/untitled1/IMG_2412.JPG'
+IMAGE_DIR = '/Users/kakurong/PycharmProjects/Kaggle_face_keypoint/data/IMG_2412.JPG'
 flip_indices_eye_center = [
     (0, 2), (1, 3),
    ]
