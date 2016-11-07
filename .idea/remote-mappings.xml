@@ -6,7 +6,7 @@
         <remote-mappings server-id="python@ssh://gg@115.197.40.143:22/usr/bin/python">
           <settings>
             <list>
-              <mapping local-root="$PROJECT_DIR$/.." remote-root="/home/gg/PycharmProjects" />
+              <mapping local-root="$PROJECT_DIR$" remote-root="/home/gg/PycharmProjects/Kaggle_face_keypoint" />
             </list>
           </settings>
         </remote-mappings>
