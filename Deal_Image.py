@@ -1,8 +1,10 @@
-import tensorflow as tf
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import  Tools as tl
+import tensorflow as tf
+
+from utility import Tools as tl
+
 INPUT_IMAGE_DIM = 9216
 IMAGE_DIR = '/Users/kakurong/PycharmProjects/untitled1/IMG_2412.JPG'
 flip_indices_eye_center = [

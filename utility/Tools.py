@@ -4,6 +4,11 @@ import tensorflow as tf
 from Global_defintion import *
 FLOOKUP = 'IdLookupTable.csv'
 
+IMAGE_INPUT_WIDTH = 96
+IMAGE_INPUT_HEIGH = 96
+
+
+
 flip_indices_eye_center = [
     (0, 2), (1, 3),
     (4, 8), (5, 9), (6, 10), (7, 11),
