@@ -1,8 +1,9 @@
 import tensorflow as tf
+
 from utility.Model_Parameter import *
 from utility.Tools import IMAGE_INPUT_WIDTH
 from utility.Tools import IMAGE_INPUT_HEIGH
-
+##
 #L1 inlucde 2 models,  predict the postion of  two eyes centre by
 #using the whole image of face and the half whole image.
 input_channel = 1
