@@ -1,7 +1,8 @@
 import Deal_Image
+import tensorflow as tf
 from Face_kyePoint_cnn import *
 from utility.Global_defintion import *
-
+from CNN_MODEL.Level_1 import  *
 FLAGS = tf.app.flags.FLAGS
 
 tf.app.flags.DEFINE_integer('max_steps', 50000,
@@ -9,7 +10,7 @@ tf.app.flags.DEFINE_integer('max_steps', 50000,
 tf.app.flags.DEFINE_string('summary_dir', '/tmp/faceKeypoint',
                            """Directory where to write event logs """
                            """and checkpoint.""")
-tf.app.flags.DEFINE_string('model_dir', '/home/gg/PycharmProjects/Kaggle_face_keypoint/Model/',
+tf.app.flags.DEFINE_string('model_dir', 'Model/',
                            """Directory where to write event logs """
                            """and checkpoint.""")
 
@@ -30,8 +31,8 @@ def train(if_train):
         y_ = tf.placeholder('float', shape=[None,  4])
         keep_prob = tf.placeholder('float')
         phase_train = tf.placeholder(tf.bool,name='phase_train')
-        model_labels = inference_with_bn(x, keep_prob,phase_train)
-        #model_labels = inference(x,keep_prob)
+        #model_labels = inference_with_bn(x, keep_prob,phase_train)
+        model_labels = L1_model_with_bn(x,keep_prob,phase_train)
 
         loss_op = loss(model_labels, y_)
 
@@ -48,7 +49,7 @@ def train(if_train):
         image_op = tf.image_summary('x-input',tf.reshape(x,[-1,96,96,1]),max_images=BATCH_SIZE)
         image_writer = tf.train.SummaryWriter(FLAGS.summary_dir + '/images')
         best_valid = np.inf
-        #load_model = saver.restore(sess, FLAGS.model_dir+ 'model.ckpteye_center-30000')
+        load_model = saver.restore(sess, FLAGS.model_dir+ 'model.ckpteye_center-30000')
         if if_train:
 
             #for current_col in range(31):
